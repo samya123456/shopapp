@@ -1,20 +1,54 @@
 <template>
 <div id ="app">
-  <h1>Submit Form Data to API </h1>
+  
+  <h1>Welcom to My App</h1>
+  
 
-  <InsertDataToInventory />
+   <p >
+    <router-link  to="/addProductQuantity">Add Existing Product Quantity</router-link>
+   </p>
+
+   <p >
+    <router-link  to="/addProduct">Add Product</router-link>
+   </p>
+
+   <p >
+    <router-link  to="/">Home</router-link>
+   </p>
+    
+  <div>
+  <router-view></router-view>  
+  </div > 
   </div> 
 </template>
 
 <script>
-
-import InsertDataToInventory from "./components/InsertDataToInventory"
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+ 
 export default {
   name: 'App',
   components: {
-    InsertDataToInventory
+   
+  },
+   data(){
+
+    return{
+      isDisplayAddProdQuantity:false
+    }
+   },
+ 
+  
+  methods : {
+    displayAddProdQuantity(){
+        this.$router.push('/') 
+      }
+      
+    }
+
   }
-};
+
 </script>
 
 <style>

@@ -1,15 +1,20 @@
-<template v-if="posts">
+<template>
+
   <div> 
-      <h1> DataInsert </h1>
-      <form @submit="postData" method ="post">
+      <h1> Add Your Product </h1>
+   
+  
+     <form @submit="postData" method ="post">
           <label for="productName">Product Name:</label>
-          <input type="text" name ="productName" v-model="posts.productName" ><br/><br/>
+          <input type="text" name ="productName" v-model="product.productName" ><br/><br/>
           <label for="productCode">Product Code:</label>
-          <input type="text" name ="productCode" v-model="posts.productCode" ><br/><br/>
-          <label for="productCompanyId">Product Code Id:</label>
-          <input type="text" name ="productCompanyId" v-model="posts.productCompanyId" ><br/><br/>
-           <input type="hidden" name ="productId" v-model="posts.productId" >
-          <button type="submit"> Post </button>
+          <input type="text" name ="productCode" v-model="product.productCode" ><br/><br/>
+          <label for="productCompanyId">Product Company Id:</label>
+          <input type="text" name ="productCompanyId" v-model="product.productCompanyId" ><br/><br/>
+          <label for="productQuantityId">Product Quantity:</label>
+          <input type="text" name ="productQuantityId" v-model="product.productQuantity" ><br/><br/>
+          <input type="hidden" name ="productId" v-model="product.productId" >
+          <button type="submit"> Enter </button>
       </form>    
 
   </div>   
@@ -21,10 +26,11 @@ export default {
     name:"InsertDataToInventory",
     data(){
         return {
-            posts :{
+            product :{
                 productId:1,
                 productName:null,
-                productCode :null
+                productCode :null,
+                productQuantity:0
                 
 
             }
@@ -36,7 +42,7 @@ export default {
             this.axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
                e.preventDefault();
             this.axios.post("http://localhost:9000/Inventory/insert",
-            this.posts,{
+            this.product,{
                  mode: 'cors',
                   credentials: 'include'
             })
