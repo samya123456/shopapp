@@ -21,8 +21,15 @@
           <button type="submit"> Enter </button>
           
       </form>    
- 
-
+ <!-- Comment <Dropdown
+    :options=this.options
+     v-on:selected="validateSelection($event)"
+    :disabled="false"
+    name="zipcode"
+    :maxItem="10"
+    placeholder="Please select an option">
+</Dropdown>
+  </div>-->
   </div>   
 </template>
 
@@ -34,6 +41,14 @@ export default {
         this.axios.get("http://localhost:9000/Inventory/getAllProducts")
         .then((response) =>{
             this.products = response.data;
+           for (var i = 0; i <  this.products.length ; i++){
+              this.options.push({
+                id:   i,
+                name:  this.products[i].productCode
+            });
+           }
+         
+            
         })
         .catch(error => {
             this.errorMessage = error.message;
@@ -52,7 +67,8 @@ export default {
 
             },
             selected:{},
-            products:[]
+            products:[],
+            options: []
         }
 
     },
@@ -71,6 +87,9 @@ export default {
         },
         onChange(){
             this.product = this.selected
+        },
+        validateSelection(event){
+            alert(event)
         }
     }
 

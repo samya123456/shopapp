@@ -1,21 +1,32 @@
 <template>
-<div id ="app">
-  
+<div id ="app"  v-bind:style="{ backgroundColor: '#E5ECFA'}">
+
   <h1>Welcom to My App</h1>
-  
-
-   <p >
-    <router-link  to="/addProductQuantity">Add Existing Product Quantity</router-link>
-   </p>
-
-   <p >
-    <router-link  to="/addProduct">Add Product</router-link>
-   </p>
-
-   <p >
+  <p align="justify">
+    <router-link  to="/viewProductQuickSearch">Quick Search</router-link>
+  </p>
+  <p align="justify">
     <router-link  to="/">Home</router-link>
-   </p>
-    
+  </p>
+ <table class="table table-striped table-bordered center">
+   <thead>
+      <tr>
+            <th align="justify">
+              <router-link  to="/addProductQuantity">Add Product Quantity</router-link>
+            </th>
+            
+
+            <th align="justify">
+              <router-link   to="/addProduct">Add Product</router-link>
+            </th>
+
+            <th align="justify">
+              <router-link   to="/viewProductCompany">Product Company Details</router-link>
+            </th>
+
+      </tr>
+   </thead>
+ </table>
   <div>
   <router-view></router-view>  
   </div > 
@@ -25,6 +36,7 @@
 <script>
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 Vue.use(VueRouter)
  
 export default {
