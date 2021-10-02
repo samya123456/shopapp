@@ -16,18 +16,22 @@
             label="Product Code"
             item-text="productCode"
             item-value="productCode"
-             @change="onChange()"
+             @change="onChangeProductCode()"
             return-object>
         </v-select>
             
-        <v-text-field 
-          label="Product Company Id" 
-          v-bind:value="product.productCompanyId">
-          </v-text-field>
+        <v-select v-model="selectedProductWiseCompanyList"
+            :items="ProductWiseCompanyList"
+            label="Product Company Code"
+            item-text="company.code"
+            item-value="company.code"
+             @change="onChangeCompanyCode()"
+            return-object>
+        </v-select>
              
           <v-text-field 
           label="Product Quantity" 
-          v-bind:value="product.productQuantity">
+          v-bind:value="ProductCompany.productcompanyQuantity">
           </v-text-field>
              
           <input type="hidden" name ="productId" v-model="product.productId" >
@@ -84,7 +88,11 @@ export default {
             },
             selected:{},
             products:[],
-            options: []
+            options: [],
+            ProductWiseCompanyList:[],
+            ProductCompany:[],
+            selectedProductWiseCompanyList:[]
+
         }
 
     },
@@ -102,11 +110,25 @@ export default {
             });
          
         },
-        onChange(){
+        onChangeProductCode(){
             this.product = this.selected
+
+             this.axios.post("http://localhost:9000/Inventory/allComapanyOfProduct",this.product)
+        .then((response) =>{
+            this.ProductWiseCompanyList = response.data;
+            console.warn(this.ProductWiseCompanyList)
+            
+        })
+        .catch(error => {
+            this.errorMessage = error.message;
+            console.log("There was an error!", error);
+            });
         },
         validateSelection(event){
             alert(event)
+        },
+        onChangeCompanyCode(){
+            this.ProductCompany =this. selectedProductWiseCompanyList
         }
     },
     white:"",

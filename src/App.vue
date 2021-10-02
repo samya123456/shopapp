@@ -2,42 +2,24 @@
   <v-app>
    
 <div class="container">
-
-   <nav class="main-nav">
-     
-    </nav>
+    
     <h1 align="center">Welcom to My App</h1>
- <!-- <p align="justify">
-    <router-link  to="/">Home</router-link>
-  </p>
-
-   
-      
-            <p >
-              <router-link  to="/addProductQuantity">Add Product Quantity</router-link>
-            </p>
-            
-
-            <p >
-              <router-link   to="/addProduct">Add Product</router-link>
-            </p>
-
-            <p   >
-              <router-link   to="/viewProductCompany">Product Company Details</router-link>
-            </p > -->
-
+     <div id="view" :class="[{'collapsed' : collapsed}]">
+      <router-view/>
+    </div>
+<div id = "manu">
          <sidebar-menu
-      class="sidebar"
-      :menu="menu"
-      :collapsed="collapsed"
-    />    
-      
+              class="sidebar"
+              :menu="menu"
+              :collapsed="collapsed"
+              @item-click="onItemClick"
+              @toggle-collapse="onToggleCollapse"
+              
+          />    
+  </div>    
 
 
- 
-  <div>
-  <router-view></router-view>  
-  </div > 
+
 </div>
   </v-app>
 </template>
@@ -54,8 +36,7 @@ export default {
   },
    data(){
     return{
-      isDisplayAddProdQuantity:false,
-      collapsed: true,  
+      isDisplayAddProdQuantity:false, 
        menu: [
         {
           header: true,
@@ -82,7 +63,17 @@ export default {
           title: "Product Company Details",
           
         },
+        
         ],
+       
+    collapsed: {
+      type: Boolean,
+      default: false
+    },
+    hideToggle: {
+      type: Boolean,
+      default: false
+    },
     }
    },
  
@@ -92,12 +83,15 @@ export default {
         this.$router.push('/') 
       },
        onItemClick() {
-      console.log("onItemClick");
+    
        this.collapsed =false
+       this.hideToggle =true
+      document.getElementById("manu").style.width = "0px";
     },
-    onCollapse(c) {
-      console.log(c);
-      this.collapsed = c;
+    
+    onToggleCollapse(){
+      document.getElementById("manu").style.width = "100px";
+       document.getElementById("main").style.marginLeft = "100px";
     }
       
     }
@@ -115,17 +109,12 @@ export default {
   height: 300px;
 }
 
-.sidebar.v-sidebar-menu .vsm--mobile-item {
-  z-index: 0 !important;
-}
+
 .sidebar.v-sidebar-menu.vsm_collapsed .vsm--link_level-1:hover {
   background-color: transparent;
 }
 
-.sidebar.v-sidebar-menu .vsm-arrow:after {
-  content: "\f105";
-  font-family: "FontAwesome";
-}
+
 .sidebar.v-sidebar-menu .collapse-btn:after {
   content: "\f07e";
   font-family: "FontAwesome";
