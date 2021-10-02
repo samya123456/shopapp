@@ -18,14 +18,19 @@ import Vuetify from 'vuetify/lib'
 import Header from 'v-header'
 import colors from 'vuetify/lib/util/colors'
 import './assets/asset.css';
+import "vue-sidebar-menu/dist/vue-sidebar-menu.css";
+import VueSidebarMenu from "vue-sidebar-menu";
+import { SidebarMenu } from 'vue-sidebar-menu'
 Vue.config.productionTip = false
-Vue.use(VueAxios, axios,VueRouter,Dropdown,VueTableDynamic,VueDataTable,Vuetable,DataTable,Vuetify,Header)
+Vue.use(VueAxios, axios,VueRouter,Dropdown,VueTableDynamic,VueDataTable,Vuetable,DataTable,Vuetify,Header,VueSidebarMenu,SidebarMenu)
 Vue.component("Dropdown", Dropdown)
 Vue.component('VueTableDynamic', VueTableDynamic);
 Vue.component('VueDataTable', VueDataTable);
 Vue.component('Vuetable', Vuetable);
 Vue.component('DataTable', DataTable);
 Vue.component('Header', Header);
+Vue.component('VueSidebarMenu', VueSidebarMenu);
+Vue.component('SidebarMenu', SidebarMenu);
 
 
 const routes =[
