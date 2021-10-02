@@ -1,12 +1,19 @@
 <template>
   <v-app>
-   
-<div class="container">
     
-    <h1 align="center">Welcom to My App</h1>
-     <div id="view" :class="[{'collapsed' : collapsed}]">
-      <router-view/>
-    </div>
+       <header>
+          
+    <h1 align="center"  class="p-3 text-center">Inventory App</h1>
+    </header>
+    <v-main class="grey lighten-3">
+      <v-container>
+         <v-row>
+           <v-col cols="2">
+             <v-sheet rounded="lg">
+      
+    
+     
+            
 <div id = "manu">
          <sidebar-menu
               class="sidebar"
@@ -17,10 +24,26 @@
               
           />    
   </div>    
-
-
-
-</div>
+  </v-sheet>
+          </v-col>
+        <v-col>
+           
+              <div id="view" :class="[{'collapsed' : collapsed}]">
+           
+                 <v-card
+                 outlined
+                 shaped
+                 elevation=4
+                 width="800">
+                <router-view/>
+                 </v-card>
+              </div> 
+         
+        </v-col>
+        </v-row>
+    </v-container>
+    </v-main>
+   
   </v-app>
 </template>
 
@@ -99,7 +122,7 @@ export default {
 </script>
 <style>
 #view {
-  padding-left: 350px;
+  padding-left: 100px;
 }
 #view.collapsed {
   padding-left: 50px;

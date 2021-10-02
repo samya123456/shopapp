@@ -1,6 +1,6 @@
 <template>
 <v-app>
-  <v-card>
+  
      <v-card-title>
         <v-text-field
           v-model="search"
@@ -9,7 +9,9 @@
         ></v-text-field>
       </v-card-title>
   <div class="container" > 
-      <h1 class="p-3 text-center">View Product Details</h1>
+     <v-card-title>
+    View Product Details
+       </v-card-title>
     <v-data-table :items="ProductWiseCompanyListList"
                   :headers="productHeader"
                   :expanded.sync="expanded"
@@ -44,7 +46,7 @@
               
       
         
- </v-card>
+
      </v-app>
 </template>
 <style>

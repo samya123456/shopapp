@@ -1,8 +1,9 @@
 <template>
 <v-app>
   <div class="container"> 
-      <h1> Add Your Product </h1>
-   
+       <v-card-title>
+       Add Your Product 
+       </v-card-title>
   
       <v-form  ref="form" @submit="postData" method ="post">
            <v-text-field 

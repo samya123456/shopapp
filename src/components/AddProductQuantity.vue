@@ -1,16 +1,28 @@
 <template>
 <v-app>
+    
 <div class="container">
-     <h1>Add Your Product</h1>
-   
-  
-      <v-form  ref="form" @submit="postData" method ="post">
+     <v-card-title>
+     Add Product Quantity
+    </v-card-title>
+     <div id ="alertId" style="display:none">
+            <v-alert  class="text-center"
+                :type="alerttype"
+                outlined
+                border="left"
+                @input="closeAlert"
+                :value="alert"
+            >
+                    Available Products: {{ProductCompany.productcompanyQuantity}}
+            </v-alert>
+          </div>
+      <v-form  ref="form"  method ="post">
          
           <v-text-field 
           label="Product Name" 
           v-bind:value="product.productName">
           </v-text-field>
-          
+         
          <v-select v-model="selected"
             :items="products"
             label="Product Code"
@@ -30,9 +42,11 @@
         </v-select>
              
           <v-text-field 
-          label="Product Quantity" 
-          v-bind:value="ProductCompany.productcompanyQuantity">
+          label="Product Quantity To Add" 
+          v-model="productQuantityToAdd"
+          width="200">
           </v-text-field>
+         
              
           <input type="hidden" name ="productId" v-model="product.productId" >
         
@@ -43,13 +57,14 @@
             small
             x-large
             x-small
+             @click="postData"
           >Submit</v-btn>
           
          
           
       </v-form>    
   </div>  
-          
+        
  </v-app>
 </template>
 
@@ -91,7 +106,9 @@ export default {
             options: [],
             ProductWiseCompanyList:[],
             ProductCompany:[],
-            selectedProductWiseCompanyList:[]
+            selectedProductWiseCompanyList:[],
+            alerttype:"",
+            productQuantityToAdd:null
 
         }
 
@@ -99,15 +116,22 @@ export default {
 
     methods : {
         postData(e){
+             
             e.preventDefault();
-            this.axios.post("http://localhost:9000/Inventory/insert",this.product)
+            this.ProductCompany.productcompanyQuantity = parseInt(this.ProductCompany.productcompanyQuantity)+ parseInt(this.productQuantityToAdd)
+            alert(this.ProductCompany.productcompanyQuantity)
+           /* this.axios.post("http://localhost:9000/Inventory/insert",this.ProductCompany)
             .then((response)=>{
                     console.warn(response)
             })
             .catch(error => {
             this.errorMessage = error.message;
             console.log("There was an error!", error);
-            });
+            });*/
+            var x = document.getElementById("alertId");
+                    if (x.style.display === "block") {
+                        x.style.display = "none";
+                    }
          
         },
         onChangeProductCode(){
@@ -127,8 +151,27 @@ export default {
         validateSelection(event){
             alert(event)
         },
+        closeAlert(){
+                  var x = document.getElementById("alertId");
+                    if (x.style.display === "block") {
+                        x.style.display = "none";
+                    }else{
+                        x.style.display = "block"
+                    }
+        },
         onChangeCompanyCode(){
+           
             this.ProductCompany =this. selectedProductWiseCompanyList
+            if( this.ProductCompany.productcompanyQuantity>2){
+                this.alerttype ="success"
+            }else{
+                this.alerttype ="warning"
+            }
+             var x = document.getElementById("alertId");
+                    if (x.style.display === "none") {
+                        x.style.display = "block";
+                    } 
+                    this.productQuantityToAdd="";
         }
     },
     white:"",
