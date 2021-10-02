@@ -1,36 +1,33 @@
 <template>
   <v-app>
    
-
-    <h1>Welcom to My App</h1>
-  <p align="justify">
-    <router-link  to="/viewProductQuickSearch">Quick Search</router-link>
-  </p>
+<div class="container">
+    <h1 align="center">Welcom to My App</h1>
   <p align="justify">
     <router-link  to="/">Home</router-link>
   </p>
- <table class="table table-striped table-bordered center">
-   <thead>
-      <tr>
-            <th align="justify">
+
+   
+      
+            <p >
               <router-link  to="/addProductQuantity">Add Product Quantity</router-link>
-            </th>
+            </p>
             
 
-            <th align="justify">
+            <p >
               <router-link   to="/addProduct">Add Product</router-link>
-            </th>
+            </p>
 
-            <th align="justify">
+            <p   >
               <router-link   to="/viewProductCompany">Product Company Details</router-link>
-            </th>
+            </p>
 
-      </tr>
-   </thead>
- </table>
+
+ 
   <div>
   <router-view></router-view>  
   </div > 
+</div>
   </v-app>
 </template>
 

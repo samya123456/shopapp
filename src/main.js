@@ -7,7 +7,6 @@ import App from './App.vue'
 import AddProductQuantity from "./components/AddProductQuantity"
 import AddProduct from "./components/AddProduct"
 import Dropdown from 'vue-simple-search-dropdown';
-import ViewProductsQuickSearch from './components/ViewProductsQuickSearch'
 import ViewProductCompany from './components/ViewProductCompany'
 //import ViewProductCompanyUpdated from './components/ViewProductCompanyUpdated'
 import VueTableDynamic from 'vue-table-dynamic'
@@ -33,8 +32,7 @@ const routes =[
   {path:'/addProductQuantity' ,component:AddProductQuantity},
   {path:'/addProduct' ,component:AddProduct},
   //{path:'/viewProductCompany' ,component:ViewProductCompany},
-  {path:'/viewProductCompany' ,component:ViewProductCompany },
-  {path:'/viewProductQuickSearch' ,component:ViewProductsQuickSearch}
+  {path:'/viewProductCompany' ,component:ViewProductCompany }
   
  
 ];
