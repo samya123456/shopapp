@@ -1,6 +1,6 @@
 <template>
-
-  <div class="container" > 
+<v-app>
+  <div  id ="app"  v-bind:style="{ backgroundColor: '#E5ECFA'}" > 
       <h1 class="p-3 text-center">View Product Details</h1>
 
         <table class="table table-striped table-bordered center">
@@ -19,7 +19,8 @@
                 </tr>
             </tbody>
         </table>
-    </div>      
+    </div>  
+    </v-app>    
 </template>
 <style>
 table, th,td{

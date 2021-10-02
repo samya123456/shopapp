@@ -1,63 +1,54 @@
 <template>
-
+<v-app>
+  <v-card>
+     <v-card-title>
+        <v-text-field
+          v-model="search"
+          label="Search"
+          hide-details
+        ></v-text-field>
+      </v-card-title>
   <div class="container" > 
       <h1 class="p-3 text-center">View Product Details</h1>
+    <v-data-table :items="ProductWiseCompanyListList"
+                  :headers="productHeader"
+                  :expanded.sync="expanded"
+                    show-expand
+                    single-expand
+                    item-key="product.productCode"
+                    @item-expanded="rowClick"
+                    :search="search"
+                   >
+                   <template v-slot:expanded-item="{headers,item}">
+                      <td :colspan="headers.length">
+                 <v-data-table :items="item.productCompanyList"
+                               :headers="companyHeader"
+                               :hide-default-footer="true"
+                               :dense="true"
+                               :calculate-widths="true"
+                              >
+                 </v-data-table>
+                   </td> 
+                   </template>
+    </v-data-table>
 
-        <table class="table table-striped table-bordered center">
-            <thead>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Product Code</th>
-                    <th>Product Quantity</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(ProductWiseCompanyList, index) in ProductWiseCompanyListList" :key="index"  @click="rowClick(ProductWiseCompanyList)">
-                    <td >{{ProductWiseCompanyList.product.productName}}</td>
-                    <td>{{ProductWiseCompanyList.product.productCode}}</td>
-                    <td>{{ProductWiseCompanyList.totalQuantity}}</td>
-                </tr>
-                <div id = "productCompanyTableId" style="display:none">
-         <table class="table table-striped table-bordered center">
-            <thead>
-                <tr>
-                    <th>Company Name</th>
-                    <th>Company Code</th>
-                    <th>Company Quantity</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(Obj, index) in ProductWiseCompanyListForCompanyTable.productCompanyList" :key="index"  @click="rowClick(ProductWiseCompanyList)">
-                    <td >{{Obj.company.code}}</td>
-                    <td>{{Obj.company.name}}</td>
-                    <td>{{Obj.productcompanyQuantity}}</td>
-                </tr>
-            </tbody>
-        </table>
+     
+
+   
+         
+
+       
 </div>
-            </tbody>
-        </table>
 
-    </div>      
+            
+              
+      
+        
+ </v-card>
+     </v-app>
 </template>
 <style>
-table, th,td{
-  border: 1px solid black;
-}
-td {
-  text-align: center;
-  
-}
-tr:hover {background-color: rgba(135, 235, 135, 0.438);}
 
-
-table {
-  width: 80%;
-}
-table.center {
-  margin-left: auto; 
-  margin-right: auto;
-}
 </style>
 
 <script>
@@ -78,6 +69,24 @@ export default {
                   
         
     },
+
+    computed: {
+    productHeader(){
+      return [
+        {text: 'Product Name', value: 'product.productName'},
+        {text: 'Product Code', value: 'product.productCode'},
+        {text: 'Product Quantity', value: 'totalQuantity'},
+      ]
+    },
+    companyHeader(){
+      return [
+        {text: 'Company Name', value: 'company.name'},
+        {text: 'Company Code', value: 'company.code'},
+        {text: 'Quantity', value: 'productcompanyQuantity'},
+      ]
+    },
+    
+  },
     data(){
         return {
             Product:{
@@ -100,25 +109,26 @@ export default {
                 
 
             },
-            selected:{},
+           
             ProductCompanys:[],
             ProductWiseCompanyListList:[],
-            ProductWiseCompanyListForCompanyTable:[]
-            
-        }
+            ProductWiseCompanyListForCompanyTable:[],
+            shown:false,
+            searchQuery: '',
+             search: '',
+                selected:{},
+                expanded: [],
+               
+                        
+        }                   
 
     },
     methods : {
-        rowClick(event){
-            this.ProductWiseCompanyListForCompanyTable =event
-            if( document.getElementById('productCompanyTableId').style.display=='none'){
-                document.getElementById('productCompanyTableId').style.display = 'block';
-            }
-            
-        },
-  
-        
-        
+        rowClick: function ( row) {      
+            this.ProductWiseCompanyListForCompanyTable =row 
+            console.warn(this.selected)
+            this.shown =!this.shown
+    },        
     }
 
 }

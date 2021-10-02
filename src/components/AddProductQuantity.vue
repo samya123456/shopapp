@@ -1,36 +1,52 @@
 <template>
-
-  <div> 
-      <h1> Add Your Product Quantity </h1>
+<v-app>
+<div class="container">
+     <h1>Add Your Product</h1>
    
   
-      <form @submit="postData" method ="post">
-          <label for="productName">Product Name:</label>
-          <input type="text" name ="productName" v-model="product.productName" ><br/><br/>
-          <label for="productCode">Product Code:</label>
-          <select name ="productCode" @change="onChange()" v-model="selected">
-            <option :value="product" v-for="(product, index) in products" v-bind:key="index">
-               {{ products[index].productCode }}
-            </option>
-          </select><br/><br/>
-          <label for="productCompanyId">Product Company Id:</label>
-          <input type="text" name ="productCompanyId" v-model="product.productCompanyId" ><br/><br/>
-          <label for="productQuantityId">Product Quantity:</label>
-          <input type="text" name ="productQuantityId" v-model="product.productQuantity" ><br/><br/>
-          <input type="hidden" name ="productId" v-model="product.productId" >
-          <button type="submit"> Enter </button>
+      <v-form  ref="form" @submit="postData" method ="post">
+         
+          <v-text-field 
+          label="Product Name" 
+          v-bind:value="product.productName">
+          </v-text-field>
           
-      </form>    
- <!-- Comment <Dropdown
-    :options=this.options
-     v-on:selected="validateSelection($event)"
-    :disabled="false"
-    name="zipcode"
-    :maxItem="10"
-    placeholder="Please select an option">
-</Dropdown>
-  </div>-->
-  </div>   
+         <v-select v-model="selected"
+            :items="products"
+            label="Product Code"
+            item-text="productCode"
+            item-value="productCode"
+             @change="onChange()"
+            return-object>
+        </v-select>
+            
+        <v-text-field 
+          label="Product Company Id" 
+          v-bind:value="product.productCompanyId">
+          </v-text-field>
+             
+          <v-text-field 
+          label="Product Quantity" 
+          v-bind:value="product.productQuantity">
+          </v-text-field>
+             
+          <input type="hidden" name ="productId" v-model="product.productId" >
+        
+          <v-btn
+            color="primary"
+            elevation="12"
+            large
+            small
+            x-large
+            x-small
+          >Submit</v-btn>
+          
+         
+          
+      </v-form>    
+  </div>  
+          
+ </v-app>
 </template>
 
 <script>
@@ -72,6 +88,7 @@ export default {
         }
 
     },
+
     methods : {
         postData(e){
             e.preventDefault();
@@ -91,8 +108,10 @@ export default {
         validateSelection(event){
             alert(event)
         }
-    }
+    },
+    white:"",
 
 }
 </script>
+
 

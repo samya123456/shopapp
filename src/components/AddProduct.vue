@@ -1,23 +1,36 @@
 <template>
-
-  <div> 
+<v-app>
+  <div class="container"> 
       <h1> Add Your Product </h1>
    
   
-     <form @submit="postData" method ="post">
-          <label for="productName">Product Name:</label>
-          <input type="text" name ="productName" v-model="product.productName" ><br/><br/>
-          <label for="productCode">Product Code:</label>
-          <input type="text" name ="productCode" v-model="product.productCode" ><br/><br/>
-          <label for="productCompanyId">Product Company Id:</label>
-          <input type="text" name ="productCompanyId" v-model="product.productCompanyId" ><br/><br/>
-          <label for="productQuantityId">Product Quantity:</label>
-          <input type="text" name ="productQuantityId" v-model="product.productQuantity" ><br/><br/>
+      <v-form  ref="form" @submit="postData" method ="post">
+           <v-text-field 
+          label="Product Name" 
+          v-bind:value="product.productName">
+          </v-text-field>
+           <v-text-field 
+          label="Product Code" 
+          v-bind:value="product.productCode">
+          </v-text-field>
+           <v-text-field 
+          label="Product Company Id" 
+          v-bind:value="product.productCompanyId">
+          </v-text-field>
+          
           <input type="hidden" name ="productId" v-model="product.productId" >
-          <button type="submit"> Enter </button>
-      </form>    
+           <v-btn
+            color="primary"
+            elevation="12"
+            large
+            small
+            x-large
+            x-small
+          >Submit</v-btn>
+      </v-form>    
 
-  </div>   
+  </div>  
+  </v-app> 
 </template>
 
 <script>

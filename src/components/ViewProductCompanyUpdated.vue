@@ -1,11 +1,9 @@
 <template>
 
-  <div class="container" > 
+  <div  > 
       <h1 class="p-3 text-center">View Product Details</h1>
-        <v-data-table :items="ProductWiseCompanyListList"
-                      :headers="headers">
-        </v-data-table>
-       <!-- <table class="table table-striped table-bordered center">
+
+        <table class="table table-striped table-bordered center">
             <thead>
                 <tr>
                     <th>Product Name</th>
@@ -13,13 +11,19 @@
                     <th>Product Quantity</th>
                 </tr>
             </thead>
+           
             <tbody>
-                <tr v-for="(ProductWiseCompanyList, index) in ProductWiseCompanyListList" :key="index"  @click="rowClick(ProductWiseCompanyList)">
-                    <td >{{ProductWiseCompanyList.product.productName}}</td>
-                    <td>{{ProductWiseCompanyList.product.productCode}}</td>
-                    <td>{{ProductWiseCompanyList.totalQuantity}}</td>
+                 
+                <tr v-for="(ProductWiseCompanyList, index) in ProductWiseCompanyListList" :key="index"   @click="rowClick(ProductWiseCompanyList)">
+                    <td >
+                         <div>{{ProductWiseCompanyList.product.productName}}</div></td>
+                    <td>
+                        <div>{{ProductWiseCompanyList.product.productCode}}</div></td>
+                    <td ><div>{{ProductWiseCompanyList.totalQuantity}}
+                        </div></td>
                 </tr>
-                <div id = "productCompanyTableId" style="display:none">
+                </tbody>
+                <div v-if="shown" align="center" id = "productCompanyTableId" >
          <table class="table table-striped table-bordered center">
             <thead>
                 <tr>
@@ -29,16 +33,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(Obj, index) in ProductWiseCompanyListForCompanyTable.productCompanyList" :key="index"  @click="rowClick(ProductWiseCompanyList)">
+                <tr v-for="(Obj, index) in ProductWiseCompanyListForCompanyTable.productCompanyList" :key="index" >
                     <td >{{Obj.company.code}}</td>
                     <td>{{Obj.company.name}}</td>
-                    <td>{{Obj.productcompanyQuantity}}</td>
+                    <td>{{Obj.productcompanyQuantity}}   
+                        
+                    </td>
                 </tr>
             </tbody>
         </table>
 </div>
-            </tbody>
-        </table> -->
+
+            
+              
+        </table>
+        
 
     </div>      
 </template>
@@ -48,9 +57,10 @@ table, th,td{
 }
 td {
   text-align: center;
-  
+    
 }
 tr:hover {background-color: rgba(135, 235, 135, 0.438);}
+
 
 
 table {
@@ -60,15 +70,21 @@ table.center {
   margin-left: auto; 
   margin-right: auto;
 }
+
+.slide-leave-active,
+.slide-enter-active {
+  transition: 1s;
+}
+.slide-enter {
+  transform: translate(0, 100%);
+}
+.slide-leave-to {
+  transform: translate(0, -100%);
+}
 </style>
 
-<script >
-import DataTable from 'v-data-table'
-import Vue from 'vue'
-Vue.use(DataTable)
+<script>
 export default {
-    
-    
     name:"ViewProductCompany",
     mounted(){
         this.axios.get("http://localhost:9000/Inventory/getAllProductsCompanyWise")
@@ -111,23 +127,30 @@ export default {
             ProductCompanys:[],
             ProductWiseCompanyListList:[],
             ProductWiseCompanyListForCompanyTable:[],
-            headers: [
-                        { text: "Title", align: "start", sortable: false, value: "title" },
-                        { text: "Description", value: "description", sortable: false },
-                        { text: "Status", value: "status", sortable: false },
-                        { text: "Actions", value: "actions", sortable: false },
-                    ],
+            shown:false
             
         }
 
     },
-     
     methods : {
         rowClick(event){
             this.ProductWiseCompanyListForCompanyTable =event
-            if( document.getElementById('productCompanyTableId').style.display=='none'){
-                document.getElementById('productCompanyTableId').style.display = 'block';
-            }
+            
+            this.shown =!this.shown
+
+            
+
+    
+    
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+   
+
+    /* Toggle between hiding and showing the active panel */
+   
+  
+
+
             
         },
   

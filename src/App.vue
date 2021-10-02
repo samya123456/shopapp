@@ -1,7 +1,8 @@
 <template>
-<div id ="app"  v-bind:style="{ backgroundColor: '#E5ECFA'}">
+  <v-app>
+   
 
-  <h1>Welcom to My App</h1>
+    <h1>Welcom to My App</h1>
   <p align="justify">
     <router-link  to="/viewProductQuickSearch">Quick Search</router-link>
   </p>
@@ -30,22 +31,19 @@
   <div>
   <router-view></router-view>  
   </div > 
-  </div> 
+  </v-app>
 </template>
 
 <script>
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
 Vue.use(VueRouter)
- 
 export default {
-  name: 'App',
+ name: 'App',
   components: {
    
   },
    data(){
-
     return{
       isDisplayAddProdQuantity:false
     }
@@ -58,18 +56,6 @@ export default {
       }
       
     }
-
-  }
-
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
