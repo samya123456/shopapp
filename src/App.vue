@@ -20,7 +20,7 @@
 
             <p   >
               <router-link   to="/viewProductCompany">Product Company Details</router-link>
-            </p>
+            </p >
 
 
  
