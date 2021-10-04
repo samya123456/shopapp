@@ -149,14 +149,14 @@ export default {
             this.ProductCompany.productcompanyQuantity = parseInt(this.ProductCompany.productcompanyQuantity)+ parseInt(this.addedQuantity)
             this.ProductCompany.addedQuantity =  parseInt(this.addedQuantity)
             alert(this.ProductCompany.productcompanyQuantity)
-            this.axios.post("http://localhost:9000/Inventory/updateQuantity",this.ProductCompany)
+          /*  this.axios.post("http://localhost:9000/Inventory/updateQuantity",this.ProductCompany)
             .then((response)=>{
                     console.warn(response)
             })
             .catch(error => {
             this.errorMessage = error.message;
             console.log("There was an error!", error);
-            }); 
+            }); */
             this.refreshForm();
               this.displaySuccessAlert();
               setTimeout(function () {

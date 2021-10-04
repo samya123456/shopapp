@@ -19,6 +19,7 @@ import Header from 'v-header'
 import colors from 'vuetify/lib/util/colors'
 import './assets/asset.css';
 import "vue-sidebar-menu/dist/vue-sidebar-menu.css";
+import '@fortawesome/fontawesome-free/css/all.css'
 import VueSidebarMenu from "vue-sidebar-menu";
 import { SidebarMenu } from 'vue-sidebar-menu'
 Vue.config.productionTip = false

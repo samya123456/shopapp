@@ -69,23 +69,36 @@ export default {
         {
           href: "/",
           title: "Home",
+          icon: 'fa fa-user'
           
         },
         {
-          href: "/addProductQuantity",
-          title: "Add Product Quantity",
-         
+          href: '/product',
+          title: 'Product Manu',
+          icon: 'fa fa-chart-area',
+           child: [
+             {
+              href: "/addProductQuantity",
+              title: "Add Product Quantity",
+              icon : "fab fa-audible"
+            },
+            {
+              href: "/addProduct",
+              title: "Add Product",
+              icon :"fas fa-beer"
+              
+            },
+            {
+              href: "/viewProductCompany",
+              title: "Product Company Details",
+              icon :"fas fa-anchor"
+              
+            },
+           ]
+
         },
-        {
-          href: "/addProduct",
-          title: "Add Product",
-          
-        },
-        {
-          href: "/viewProductCompany",
-          title: "Product Company Details",
-          
-        },
+        
+        
         
         ],
        
