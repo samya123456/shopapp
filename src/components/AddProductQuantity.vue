@@ -5,7 +5,7 @@
      <v-card-title>
      Add Product Quantity
     </v-card-title>
-     <div id ="alertId" style="display:none">
+     <div id ="availableProductsAlertId" style="display:none">
             <v-alert  class="text-center"
                 :type="alerttype"
                 outlined
@@ -16,6 +16,32 @@
                     Available Products: {{ProductCompany.productcompanyQuantity}}
             </v-alert>
           </div>
+
+          <div id ="successMsgAlertId" style="display:none">
+            <v-alert  class="text-center"
+                :type="success"
+                :value="alert"
+                dismissible
+                color="cyan"
+                border="left"
+                elevation="2"
+                colored-border
+                icon="mdi-twitter"
+            >
+                    <v-col class="grow">
+         Item added successfully
+        </v-col>
+            </v-alert>
+          </div>
+       <div id ="submitSuccessAlertId" style="display:none">
+            <v-alert  class="text-center"
+                :type="success"
+                outlined
+                border="left"
+            >
+                   Item Added Successfully; 
+            </v-alert>
+          </div>    
       <v-form  ref="form"  method ="post">
          
           <v-text-field 
@@ -43,8 +69,7 @@
              
           <v-text-field 
           label="Product Quantity To Add" 
-          v-model="productQuantityToAdd"
-          width="200">
+          v-model="addedQuantity">
           </v-text-field>
          
              
@@ -108,7 +133,7 @@ export default {
             ProductCompany:[],
             selectedProductWiseCompanyList:[],
             alerttype:"",
-            productQuantityToAdd:null
+            addedQuantity:null
 
         }
 
@@ -118,22 +143,40 @@ export default {
         postData(e){
              
             e.preventDefault();
-            this.ProductCompany.productcompanyQuantity = parseInt(this.ProductCompany.productcompanyQuantity)+ parseInt(this.productQuantityToAdd)
+            this.ProductCompany.productcompanyQuantity = parseInt(this.ProductCompany.productcompanyQuantity)+ parseInt(this.addedQuantity)
+            this.ProductCompany.addedQuantity =  parseInt(this.addedQuantity)
             alert(this.ProductCompany.productcompanyQuantity)
-           /* this.axios.post("http://localhost:9000/Inventory/insert",this.ProductCompany)
+           /* this.axios.post("http://localhost:9000/Inventory/updateQuantity",this.ProductCompany)
             .then((response)=>{
                     console.warn(response)
             })
             .catch(error => {
             this.errorMessage = error.message;
             console.log("There was an error!", error);
-            });*/
-            var x = document.getElementById("alertId");
-                    if (x.style.display === "block") {
-                        x.style.display = "none";
-                    }
+            }); */
+            this.refreshForm();
+            this.displaySuccessAlert();
+             
+             
          
         },
+        refreshForm(){
+             this.ProductCompany ='';
+             this.product.productName=''
+             this.selected =''
+             this.selectedProductWiseCompanyList=''
+             this.addedQuantity =''
+             this.closeAlert()
+
+        },displaySuccessAlert(){
+
+              var x = document.getElementById("successMsgAlertId");
+                    if (x.style.display === "none") {
+                        x.style.display = "block";
+                    } 
+
+        },
+        
         onChangeProductCode(){
             this.product = this.selected
 
@@ -152,11 +195,9 @@ export default {
             alert(event)
         },
         closeAlert(){
-                  var x = document.getElementById("alertId");
+                  var x = document.getElementById("availableProductsAlertId");
                     if (x.style.display === "block") {
                         x.style.display = "none";
-                    }else{
-                        x.style.display = "block"
                     }
         },
         onChangeCompanyCode(){
@@ -167,7 +208,7 @@ export default {
             }else{
                 this.alerttype ="warning"
             }
-             var x = document.getElementById("alertId");
+             var x = document.getElementById("availableProductsAlertId");
                     if (x.style.display === "none") {
                         x.style.display = "block";
                     } 
