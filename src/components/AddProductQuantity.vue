@@ -20,7 +20,7 @@
           <div id ="successMsgAlertId" style="display:none">
             <v-alert  class="text-center"
                 :type="success"
-                :value="alert"
+                :value="successAlert"
                 dismissible
                 color="cyan"
                 border="left"
@@ -114,6 +114,8 @@ export default {
             this.errorMessage = error.message;
             console.log("There was an error!", error);
             });
+
+            
         
     },
     data(){
@@ -133,7 +135,8 @@ export default {
             ProductCompany:[],
             selectedProductWiseCompanyList:[],
             alerttype:"",
-            addedQuantity:null
+            addedQuantity:null,
+            successAlert:true
 
         }
 
@@ -146,17 +149,21 @@ export default {
             this.ProductCompany.productcompanyQuantity = parseInt(this.ProductCompany.productcompanyQuantity)+ parseInt(this.addedQuantity)
             this.ProductCompany.addedQuantity =  parseInt(this.addedQuantity)
             alert(this.ProductCompany.productcompanyQuantity)
-           /* this.axios.post("http://localhost:9000/Inventory/updateQuantity",this.ProductCompany)
+            this.axios.post("http://localhost:9000/Inventory/updateQuantity",this.ProductCompany)
             .then((response)=>{
                     console.warn(response)
             })
             .catch(error => {
             this.errorMessage = error.message;
             console.log("There was an error!", error);
-            }); */
+            }); 
             this.refreshForm();
-            this.displaySuccessAlert();
-             
+              this.displaySuccessAlert();
+              setTimeout(function () {
+               var x = document.getElementById("successMsgAlertId");
+                x.style.display='none'
+    }, 3000);
+   
              
          
         },
@@ -176,6 +183,7 @@ export default {
                     } 
 
         },
+        
         
         onChangeProductCode(){
             this.product = this.selected
@@ -216,6 +224,7 @@ export default {
         }
     },
     white:"",
+    
 
 }
 </script>
