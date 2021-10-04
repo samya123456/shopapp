@@ -42,19 +42,23 @@
                    Item Added Successfully; 
             </v-alert>
           </div>    
-      <v-form  ref="form"  method ="post">
+      <v-form  ref="form"  @submit="postData" method ="post">
          
           <v-text-field 
-          label="Product Name" 
-          v-bind:value="product.productName">
+            label="Product Name" 
+             :rules="productNameRules"
+            v-model="product.productName"
+          >
           </v-text-field>
          
         <v-autocomplete v-model="selected"
             :items="products"
             label="Product Code"
+            :rules="productNameRules"
             item-text="productCode"
             item-value="productCode"
              @change="onChangeProductCode()"
+              
             return-object>
         </v-autocomplete>
             
@@ -64,12 +68,14 @@
             item-text="company.code"
             item-value="company.code"
              @change="onChangeCompanyCode()"
+              :rules="productNameRules"
             return-object>
         </v-autocomplete>
              
           <v-text-field 
           label="Product Quantity To Add" 
-          v-model="addedQuantity">
+          v-model="addedQuantity"
+           :rules="productNameRules">
           </v-text-field>
          
              
@@ -136,7 +142,10 @@ export default {
             selectedProductWiseCompanyList:[],
             alerttype:"",
             addedQuantity:null,
-            successAlert:true
+            successAlert:true,
+             productNameRules: [
+                v => !!v || 'this field is required'
+            ],
 
         }
 
@@ -144,7 +153,7 @@ export default {
 
     methods : {
         postData(e){
-             
+              this.$refs.form.validate()
             e.preventDefault();
             this.ProductCompany.productcompanyQuantity = parseInt(this.ProductCompany.productcompanyQuantity)+ parseInt(this.addedQuantity)
             this.ProductCompany.addedQuantity =  parseInt(this.addedQuantity)
@@ -157,7 +166,8 @@ export default {
             this.errorMessage = error.message;
             console.log("There was an error!", error);
             }); */
-            this.refreshForm();
+             this.closeAlert()
+             this.$refs.form.reset()
               this.displaySuccessAlert();
               setTimeout(function () {
                var x = document.getElementById("successMsgAlertId");
@@ -167,15 +177,7 @@ export default {
              
          
         },
-        refreshForm(){
-             this.ProductCompany ='';
-             this.product.productName=''
-             this.selected =''
-             this.selectedProductWiseCompanyList=''
-             this.addedQuantity =''
-             this.closeAlert()
-
-        },displaySuccessAlert(){
+       displaySuccessAlert(){
 
               var x = document.getElementById("successMsgAlertId");
                     if (x.style.display === "none") {

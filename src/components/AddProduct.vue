@@ -8,16 +8,19 @@
       <v-form  ref="form" @submit="postData" method ="post">
            <v-text-field 
           label="Product Name" 
-           v-model="product.productName">
+           v-model="product.productName"
+            :rules="productNameRules">
           </v-text-field>
            <v-text-field 
           label="Product Code" 
-           v-model="product.productCode">
+           v-model="product.productCode"
+            :rules="productNameRules">
           </v-text-field>
             <v-autocomplete v-model="company"
                 :items="companies"
                 label="Product Company Code"
                 item-text="code"
+                 :rules="productNameRules"
                 item-value="code"
                 return-object>
            </v-autocomplete>
@@ -72,24 +75,30 @@ export default {
                productcompanyQuantity:0 
             },
             searchInput: "",
+            productNameRules: [
+                v => !!v || 'Product name is required'
+            ],
         }
+
+        
 
     },
     methods : {
         postData(e){
+             this.$refs.form.validate()
                e.preventDefault();
                this.productCompany.company = this.company
                this.productCompany.product =this.product
 
                console.warn(this.productCompany)
-           this.axios.post("http://localhost:9000/Inventory/addProduct",this.productCompany)
+        /*   this.axios.post("http://localhost:9000/Inventory/addProduct",this.productCompany)
             .then((response)=>{
                     console.warn(response)
             })
             .catch(error => {
             this.errorMessage = error.message;
             console.log("There was an error!", error);
-            }); 
+            }); */
          
         }
     }
