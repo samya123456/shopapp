@@ -49,23 +49,23 @@
           v-bind:value="product.productName">
           </v-text-field>
          
-         <v-select v-model="selected"
+        <v-autocomplete v-model="selected"
             :items="products"
             label="Product Code"
             item-text="productCode"
             item-value="productCode"
              @change="onChangeProductCode()"
             return-object>
-        </v-select>
+        </v-autocomplete>
             
-        <v-select v-model="selectedProductWiseCompanyList"
+        <v-autocomplete v-model="selectedProductWiseCompanyList"
             :items="ProductWiseCompanyList"
             label="Product Company Code"
             item-text="company.code"
             item-value="company.code"
              @change="onChangeCompanyCode()"
             return-object>
-        </v-select>
+        </v-autocomplete>
              
           <v-text-field 
           label="Product Quantity To Add" 

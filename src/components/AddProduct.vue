@@ -14,13 +14,13 @@
           label="Product Code" 
            v-model="product.productCode">
           </v-text-field>
-            <v-select v-model="company"
+            <v-autocomplete v-model="company"
                 :items="companies"
                 label="Product Company Code"
                 item-text="code"
                 item-value="code"
                 return-object>
-           </v-select>
+           </v-autocomplete>
           
            <v-btn
             color="primary"
@@ -71,6 +71,7 @@ export default {
                company:null,
                productcompanyQuantity:0 
             },
+            searchInput: "",
         }
 
     },
