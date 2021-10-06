@@ -24,8 +24,9 @@ import VueSidebarMenu from "vue-sidebar-menu";
 import { SidebarMenu } from 'vue-sidebar-menu'
 import { required, digits, email, max, regex } from 'vee-validate/dist/rules'
 import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
+import VueNumericInput from 'vue-numeric-input';
 Vue.config.productionTip = false
-Vue.use(VueAxios, axios,VueRouter,Dropdown,VueTableDynamic,VueDataTable,Vuetable,DataTable,Vuetify,Header,VueSidebarMenu,SidebarMenu)
+Vue.use(VueAxios, axios,VueRouter,Dropdown,VueTableDynamic,VueDataTable,Vuetable,DataTable,Vuetify,Header,VueSidebarMenu,SidebarMenu,VueNumericInput)
 Vue.component("Dropdown", Dropdown)
 Vue.component('VueTableDynamic', VueTableDynamic);
 Vue.component('VueDataTable', VueDataTable);
@@ -36,6 +37,7 @@ Vue.component('VueSidebarMenu', VueSidebarMenu);
 Vue.component('SidebarMenu', SidebarMenu);
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
+Vue.component('VueNumericInput', VueNumericInput);
 
 const routes =[
   {path:'/addProductQuantity' ,component:AddProductQuantity},
@@ -68,6 +70,13 @@ setInteractionMode('eager')
     ...email,
     message: 'Email must be valid',
   })
+  extend('isGreater', {
+    params: ['otherValue'],
+    validate(value, { otherValue }) {
+      return value > otherValue;
+    },
+    message: '{_field_} should be greater than {otherValue}'
+  });
 
 export default new Vuetify({
   theme: {

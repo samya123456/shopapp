@@ -93,22 +93,34 @@
             required
             return-object>
         </v-autocomplete>
-          </validation-provider>      
-           <validation-provider
+          </validation-provider>   
+           <br/>
+           <v-row>   
+               <v-col
+                cols="50"
+                sm="6"
+                md="3">
+          <validation-provider
                 v-slot="{ errors }"
                 name="Product Quantity"
                 rules="required"
             > 
           <v-text-field 
-            label="Product Quantity To Add" 
+            label="Quantity To Add" 
             v-model="addedQuantity"
             :error-messages="errors"
+            outlined
             required>
           </v-text-field>
+          
          </validation-provider> 
+               </v-col>
+           </v-row>
              
           <input type="hidden" name ="productId" v-model="product.productId" >
-        
+          
+                
+    <br/>
           <v-btn
             color="primary"
             elevation="12"
@@ -120,7 +132,7 @@
             :disabled="invalid"
           >Submit</v-btn>
           
-         
+          
           
       </v-form>    
        </validation-observer>

@@ -20,7 +20,7 @@
                 colored-border
                 icon="mdi-twitter"
             >
-                    <v-col class="grow">
+         <v-col class="grow">
          Product added successfully
         </v-col>
             </v-alert>
@@ -66,9 +66,101 @@
                 item-value="code"
                  :error-messages="errors"
                  required
+                 
+                  
                 return-object>
            </v-autocomplete>
           </validation-provider> 
+          <br/>
+          <v-row>
+            <v-col
+                cols="50"
+                sm="6"
+                md="3">
+
+         <validation-provider
+                v-slot="{ errors }"
+                name="Purchase cost"
+                rules="required"
+            >
+          <v-text-field
+                label="Purchase cost"
+                
+                v-model="productCompany.productPurchasePrice"
+                :error-messages="errors"
+                required
+                outlined
+                 
+          ></v-text-field>
+           </validation-provider> 
+          </v-col>
+          <v-col
+                cols="50"
+                sm="6"
+                md="3">
+                 <validation-provider
+                v-slot="{ errors }"
+                name="Currency"
+                rules="required"
+            >  
+        <v-autocomplete v-model="currency"
+            :items="currencies"
+            label="Currency"
+            item-text="currency.value"
+            item-value="currency.value"
+            outlined
+            
+             @change="onChangeCurrency()"
+             :error-messages="errors"
+            required
+            return-object>
+        </v-autocomplete>
+          </validation-provider>   
+          </v-col>
+            <v-col
+                cols="50"
+                sm="10"
+                md="3"
+            >
+            <validation-provider
+                v-slot="{ errors }"
+                name="Min price to sale"
+                rules="required|isGreater:@Purchase cost"
+            >
+            
+          <v-text-field
+            label="Min price to sale"
+             v-model="productCompany.productSaleMinPrice"
+            :error-messages="errors"
+            outlined
+               
+             required
+          ></v-text-field>
+           </validation-provider> 
+ </v-col>
+   <v-col
+                cols="50"
+                sm="10"
+                md="3"
+            >
+  
+            <validation-provider
+                v-slot="{ errors }"
+                name="Max price to sale"
+                rules="required|isGreater:@Min price to sale"
+            >
+          <v-text-field
+            label="Max price to sale"
+             v-model="productCompany.productSaleMaxPrice"
+            :error-messages="errors"
+             required
+             outlined
+                 
+          ></v-text-field>
+           </validation-provider> 
+         </v-col>
+        
+        </v-row>
            <v-btn
             color="primary"
             elevation="12"
@@ -118,10 +210,20 @@ export default {
             productCompany:{
                product:null,
                company:null,
-               productcompanyQuantity:0 
+               productcompanyQuantity:0,
+               productPurchasePrice:null,
+               productSaleMinPrice:null,
+               productSaleMaxPrice:null,
+               productSaleCurrecy:null,
+               productPurchaseCurrecy:null
             },
             searchInput: "",
-            invalid:true
+            invalid:true,
+            currencies:{
+                currency:{
+                    value:"RS"
+                }
+            }
             
         }
 
@@ -137,18 +239,13 @@ export default {
                this.productCompany.product =this.product
 
                console.warn(this.productCompany)
-        /*   this.axios.post("http://localhost:9000/Inventory/addProduct",this.productCompany)
+           this.axios.post("http://localhost:9000/Inventory/addProduct",this.productCompany)
             .then((response)=>{
                     console.warn(response)
-            })
-            .catch(error => {
-            this.errorMessage = error.message;
-            console.log("There was an error!", error);
-            }); */
-              this.$refs.form.reset()
+                    this.$refs.form.reset()
               
                 this.displaySuccessAlert();
-              setTimeout(function () {
+                setTimeout(function () {
                var x = document.getElementById("successMsgAlertId");
                if( x.style.display=='block'){
                     x.style.display='none'
@@ -156,6 +253,12 @@ export default {
                
     }, 3000);
      this.$refs.observer.reset()
+            })
+            .catch(error => {
+            this.errorMessage = error.message;
+            console.log("There was an error!", error);
+            }); 
+              
              
          
         },
@@ -170,5 +273,6 @@ export default {
     }
 
 }
+
 </script>
 
