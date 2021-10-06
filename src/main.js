@@ -22,6 +22,8 @@ import "vue-sidebar-menu/dist/vue-sidebar-menu.css";
 import '@fortawesome/fontawesome-free/css/all.css'
 import VueSidebarMenu from "vue-sidebar-menu";
 import { SidebarMenu } from 'vue-sidebar-menu'
+import { required, digits, email, max, regex } from 'vee-validate/dist/rules'
+import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios,VueRouter,Dropdown,VueTableDynamic,VueDataTable,Vuetable,DataTable,Vuetify,Header,VueSidebarMenu,SidebarMenu)
 Vue.component("Dropdown", Dropdown)
@@ -32,7 +34,8 @@ Vue.component('DataTable', DataTable);
 Vue.component('Header', Header);
 Vue.component('VueSidebarMenu', VueSidebarMenu);
 Vue.component('SidebarMenu', SidebarMenu);
-
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
 
 const routes =[
   {path:'/addProductQuantity' ,component:AddProductQuantity},
@@ -42,6 +45,29 @@ const routes =[
   
  
 ];
+
+
+setInteractionMode('eager')
+  extend('digits', {
+    ...digits,
+    message: '{_field_} needs to be {length} digits. ({_value_})',
+  })
+  extend('required', {
+    ...required,
+    message: '{_field_} can not be empty',
+  })
+  extend('max', {
+    ...max,
+    message: '{_field_} may not be greater than {length} characters',
+  })
+  extend('regex', {
+    ...regex,
+    message: '{_field_} {_value_} does not match {regex}',
+  })
+  extend('email', {
+    ...email,
+    message: 'Email must be valid',
+  })
 
 export default new Vuetify({
   theme: {
@@ -53,6 +79,7 @@ export default new Vuetify({
       },
     },
   },
+  
 })
 
 const router = new VueRouter({

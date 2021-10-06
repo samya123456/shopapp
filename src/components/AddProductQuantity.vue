@@ -5,6 +5,10 @@
      <v-card-title>
      Add Product Quantity
     </v-card-title>
+      <validation-observer
+            ref="observer"
+            v-slot="{ invalid }"
+        >
      <div id ="availableProductsAlertId" style="display:none">
             <v-alert  class="text-center"
                 :type="alerttype"
@@ -43,41 +47,65 @@
             </v-alert>
           </div>    
       <v-form  ref="form"  @submit="postData" method ="post">
-         
-          <v-text-field 
-            label="Product Name" 
-             :rules="productNameRules"
-            v-model="product.productName"
-          >
-          </v-text-field>
-         
+          <validation-provider
+                v-slot="{ errors }"
+                name="Product Code"
+                rules="required"
+            >  
         <v-autocomplete v-model="selected"
             :items="products"
             label="Product Code"
-            :rules="productNameRules"
+            :error-messages="errors"
+            required
             item-text="productCode"
             item-value="productCode"
              @change="onChangeProductCode()"
               
             return-object>
         </v-autocomplete>
-            
+          </validation-provider>  
+       <validation-provider
+        v-slot="{ errors }"
+        name="Product Name"
+        rules="required">  
+          <v-text-field 
+            label="Product Name" 
+            :error-messages="errors"
+            required
+            v-model="product.productName"
+             :disabled="true"
+          >
+          </v-text-field>
+           </validation-provider>
+       
+           <validation-provider
+                v-slot="{ errors }"
+                name="selectedProductWiseCompanyList"
+                rules="required"
+            >  
         <v-autocomplete v-model="selectedProductWiseCompanyList"
             :items="ProductWiseCompanyList"
             label="Product Company Code"
             item-text="company.code"
             item-value="company.code"
              @change="onChangeCompanyCode()"
-              :rules="productNameRules"
+             :error-messages="errors"
+            required
             return-object>
         </v-autocomplete>
-             
+          </validation-provider>      
+           <validation-provider
+                v-slot="{ errors }"
+                name="Product Quantity"
+                rules="required"
+            > 
           <v-text-field 
-          label="Product Quantity To Add" 
-          v-model="addedQuantity"
-           :rules="productNameRules">
+            label="Product Quantity To Add" 
+            v-model="addedQuantity"
+            :error-messages="errors"
+            required>
           </v-text-field>
-         
+         </validation-provider> 
              
           <input type="hidden" name ="productId" v-model="product.productId" >
         
@@ -88,12 +116,14 @@
             small
             x-large
             x-small
-             @click="postData"
+            @click="postData"
+            :disabled="invalid"
           >Submit</v-btn>
           
          
           
       </v-form>    
+       </validation-observer>
   </div>  
         
  </v-app>
@@ -153,7 +183,8 @@ export default {
 
     methods : {
         postData(e){
-              this.$refs.form.validate()
+            this.$refs.form.validate()
+            this.$refs.observer.validate()
             e.preventDefault();
             this.ProductCompany.productcompanyQuantity = parseInt(this.ProductCompany.productcompanyQuantity)+ parseInt(this.addedQuantity)
             this.ProductCompany.addedQuantity =  parseInt(this.addedQuantity)
@@ -168,11 +199,15 @@ export default {
             }); */
              this.closeAlert()
              this.$refs.form.reset()
-              this.displaySuccessAlert();
+             this.displaySuccessAlert();
               setTimeout(function () {
                var x = document.getElementById("successMsgAlertId");
-                x.style.display='none'
+               if( x.style.display=='block'){
+                    x.style.display='none'
+               }
+               
     }, 3000);
+     this.$refs.observer.reset()
    
              
          

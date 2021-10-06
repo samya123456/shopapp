@@ -14,6 +14,7 @@
     "jquery": "^3.6.0",
     "v-data-table": "^2.1.0",
     "v-header": "^1.0.0",
+    "vee-validate": "^3.4.13",
     "vue": "^2.6.11",
     "vue-axios": "^3.3.7",
     "vue-custom-google-autocomplete": "^0.1.3",

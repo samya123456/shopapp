@@ -77,17 +77,18 @@ export default {
           title: 'Product Manu',
           icon: 'fa fa-chart-area',
            child: [
-             {
-              href: "/addProductQuantity",
-              title: "Add Product Quantity",
-              icon : "fab fa-audible"
-            },
-            {
+              {
               href: "/addProduct",
               title: "Add Product",
               icon :"fas fa-beer"
               
             },
+             {
+              href: "/addProductQuantity",
+              title: "Add Product Quantity",
+              icon : "fab fa-audible"
+            },
+           
             {
               href: "/viewProductCompany",
               title: "Product Company Details",
