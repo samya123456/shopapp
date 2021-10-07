@@ -8,7 +8,6 @@ import AddProductQuantity from "./components/AddProductQuantity"
 import AddProduct from "./components/AddProduct"
 import Dropdown from 'vue-simple-search-dropdown';
 import ViewProductCompany from './components/ViewProductCompany'
-//import ViewProductCompanyUpdated from './components/ViewProductCompanyUpdated'
 import VueTableDynamic from 'vue-table-dynamic'
 import VueDataTable from 'vue-data-table'
 import DataTable from 'v-data-table'
@@ -93,7 +92,7 @@ export default new Vuetify({
 
 const router = new VueRouter({
   routes,
-  mode: 'history'
+  mode:  'abstract'
 });
 new Vue({
   el: "#app",

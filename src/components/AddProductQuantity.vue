@@ -115,6 +115,27 @@
           
          </validation-provider> 
                </v-col>
+             <v-col
+                cols="50"
+                sm="6"
+                md="3">
+               <validation-provider
+                v-slot="{ errors }"
+                name="Branch"
+                rules="required"
+            >  
+        <v-autocomplete v-model="selectedBranch"
+            :items="branches"
+            label="Branch"
+            :error-messages="errors"
+            required
+            item-text="branchName"
+            item-value="branchName"
+               outlined
+            return-object>
+        </v-autocomplete>
+          </validation-provider>  
+           </v-col>
            </v-row>
              
           <input type="hidden" name ="productId" v-model="product.productId" >
@@ -149,13 +170,19 @@ export default {
         this.axios.get("http://localhost:9000/Inventory/getAllProducts")
         .then((response) =>{
             this.products = response.data;
-           for (var i = 0; i <  this.products.length ; i++){
-              this.options.push({
-                id:   i,
-                name:  this.products[i].productCode
-            });
-           }
+          
          
+            
+        })
+        .catch(error => {
+            this.errorMessage = error.message;
+            console.log("There was an error!", error);
+            });
+
+            
+            this.axios.get("http://localhost:9000/Inventory/allBranches")
+        .then((response) =>{
+            this.branches = response.data;
             
         })
         .catch(error => {
@@ -178,7 +205,6 @@ export default {
             },
             selected:{},
             products:[],
-            options: [],
             ProductWiseCompanyList:[],
             ProductCompany:[],
             selectedProductWiseCompanyList:[],

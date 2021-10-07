@@ -17,9 +17,11 @@
                   :expanded.sync="expanded"
                     show-expand
                     single-expand
+                    outlined
                     item-key="product.productCode"
                     @item-expanded="rowClick"
                     :search="search"
+                     class="elevation-4"
                    >
                    <template v-slot:expanded-item="{headers,item}">
                       <td :colspan="headers.length">
@@ -28,6 +30,7 @@
                                :hide-default-footer="true"
                                :dense="true"
                                :calculate-widths="true"
+                                class="elevation-2"
                               >
                  </v-data-table>
                    </td> 
@@ -50,7 +53,17 @@
      </v-app>
 </template>
 <style>
-
+tbody tr:nth-of-type(even) {
+   background-color: rgba(41, 129, 145, 0.05);
+ }
+ .table-header {
+ 
+    background-color: black;
+ 
+}
+#data-table-dense-header-height{
+ height:50px
+}
 </style>
 
 <script>
@@ -75,6 +88,11 @@ export default {
     computed: {
     productHeader(){
       return [
+        {
+          
+          align: 'start',
+          value: 'name',
+        },
         {text: 'Product Name', value: 'product.productName'},
         {text: 'Product Code', value: 'product.productCode'},
         {text: 'Product Quantity', value: 'totalQuantity'},

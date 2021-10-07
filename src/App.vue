@@ -2,8 +2,9 @@
   <v-app>
     
        <header>
-          
+         
     <h1 align="center"  class="p-3 text-center">Inventory App</h1>
+     
     </header>
     <v-main class="grey lighten-3">
       <v-container>
@@ -75,29 +76,43 @@ export default {
         {
           href: '/product',
           title: 'Product Manu',
-          icon: 'fa fa-chart-area',
+          icon: 'fas fa-balance-scale',
            child: [
               {
               href: "/addProduct",
               title: "Add Product",
-              icon :"fas fa-beer"
+              icon :"fas fa-store"
               
             },
              {
               href: "/addProductQuantity",
               title: "Add Product Quantity",
-              icon : "fab fa-audible"
+              icon : 'fas fa-cart-arrow-down'
             },
            
             {
               href: "/viewProductCompany",
               title: "Product Company Details",
-              icon :"fas fa-anchor"
+              icon :"fas fa-history"
               
             },
            ]
+           },
+           {
+            href: '/sale',
+            title: 'Sale',
+            icon: 'fas fa-rupee-sign',
+            child:[
+              {
+              href: "/saleProductCompany",
+              title: "Sale Product",
+              icon : "fab fa-audible"
+            },
 
-        },
+            ]
+            },
+
+        
         
         
         
@@ -144,6 +159,7 @@ export default {
 
 .sidebar.v-sidebar-menu {
   height: 300px;
+  
 }
 
 

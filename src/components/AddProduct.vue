@@ -26,7 +26,7 @@
             </v-alert>
           </div>
        
-      <v-form  ref="form" @submit="postData" method ="post">
+      <v-form  ref="form" @submit="postData"    method ="post">
           <validation-provider
         v-slot="{ errors }"
         name="product.productName"
@@ -109,7 +109,6 @@
             item-text="currency.value"
             item-value="currency.value"
             outlined
-            
              @change="onChangeCurrency()"
              :error-messages="errors"
             required
@@ -217,6 +216,8 @@ export default {
                productSaleCurrecy:null,
                productPurchaseCurrecy:null
             },
+
+            branches:[],
             searchInput: "",
             invalid:true,
             currencies:{
