@@ -185,14 +185,13 @@ export default {
         this.axios.get("http://localhost:9000/Inventory/allCompany")
         .then((response) =>{
             this.companies = response.data;
-         
-         
             
         })
         .catch(error => {
             this.errorMessage = error.message;
             console.log("There was an error!", error);
             });
+
         
     },
     data(){

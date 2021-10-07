@@ -209,11 +209,12 @@ export default {
             ProductCompany:[],
             selectedProductWiseCompanyList:[],
             alerttype:"",
+            selectedBranch:[],
             addedQuantity:null,
             successAlert:true,
-             productNameRules: [
-                v => !!v || 'this field is required'
-            ],
+            branch:null,
+            ProductCompanyBranch:{
+            }
 
         }
 
@@ -227,7 +228,9 @@ export default {
             this.ProductCompany.productcompanyQuantity = parseInt(this.ProductCompany.productcompanyQuantity)+ parseInt(this.addedQuantity)
             this.ProductCompany.addedQuantity =  parseInt(this.addedQuantity)
             alert(this.ProductCompany.productcompanyQuantity)
-          /*  this.axios.post("http://localhost:9000/Inventory/updateQuantity",this.ProductCompany)
+            this.ProductCompanyBranch.productCompany =  this.ProductCompany;
+            this.ProductCompanyBranch.branch =  this.selectedBranch;
+          /*  this.axios.post("http://localhost:9000/Inventory/updateQuantity",this.ProductCompanyBranch)
             .then((response)=>{
                     console.warn(response)
             })
