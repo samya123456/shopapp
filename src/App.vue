@@ -102,10 +102,10 @@ export default {
             href: '/sale',
             title: 'Sale',
             icon: 'fas fa-rupee-sign',
-            child:[
+           child:[
               {
-              href: "/saleProductCompany",
-              title: "Sale Product",
+              href: "/createOrder",
+              title: "Order Place",
               icon : "fab fa-audible"
             },
 

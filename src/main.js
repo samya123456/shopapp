@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 
 import App from './App.vue'
 import AddProductQuantity from "./components/AddProductQuantity"
+import PlaceOrderComponent from "./components/sales/PlaceOrderComponent"
 import AddProduct from "./components/AddProduct"
 import Dropdown from 'vue-simple-search-dropdown';
 import ViewProductCompany from './components/ViewProductCompany'
@@ -42,10 +43,12 @@ const routes =[
   {path:'/addProductQuantity' ,component:AddProductQuantity},
   {path:'/addProduct' ,component:AddProduct},
   //{path:'/viewProductCompany' ,component:ViewProductCompany},
-  {path:'/viewProductCompany' ,component:ViewProductCompany }
+  {path:'/viewProductCompany' ,component:ViewProductCompany },
+  {path:'/createOrder' ,component:PlaceOrderComponent }
   
- 
 ];
+
+
 
 
 setInteractionMode('eager')
@@ -90,10 +93,14 @@ export default new Vuetify({
   
 })
 
-const router = new VueRouter({
+const router = new VueRouter(
+  {
   routes,
   mode:  'abstract'
-});
+}
+
+
+);
 new Vue({
   el: "#app",
   router,

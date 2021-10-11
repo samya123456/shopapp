@@ -37,15 +37,7 @@
         </v-col>
             </v-alert>
           </div>
-       <div id ="submitSuccessAlertId" style="display:none">
-            <v-alert  class="text-center"
-                :type="success"
-                outlined
-                border="left"
-            >
-                   Item Added Successfully; 
-            </v-alert>
-          </div>    
+           
       <v-form  ref="form"  @submit="postData" method ="post">
           <validation-provider
                 v-slot="{ errors }"
