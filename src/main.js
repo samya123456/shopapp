@@ -75,10 +75,22 @@ setInteractionMode('eager')
   extend('isGreater', {
     params: ['otherValue'],
     validate(value, { otherValue }) {
+    //  alert(otherValue)
       return value > otherValue;
     },
+    
     message: '{_field_} should be greater than {otherValue}'
-  });
+  })
+  extend('isSmaller', {
+    params: ['otherValue'],
+    validate(value, { otherValue }) {
+     // alert(otherValue)
+      return value < otherValue;
+    },
+    
+    message: '{_field_} should be smaller than {otherValue}'
+  })
+  ;
 
 export default new Vuetify({
   theme: {

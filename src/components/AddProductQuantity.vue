@@ -72,7 +72,7 @@
        
            <validation-provider
                 v-slot="{ errors }"
-                name="selectedProductWiseCompanyList"
+                name="Product Company Code"
                 rules="required"
             >  
         <v-autocomplete v-model="selectedProductWiseCompanyList"
