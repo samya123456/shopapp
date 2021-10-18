@@ -75,7 +75,7 @@ setInteractionMode('eager')
   extend('isGreater', {
     params: ['otherValue'],
     validate(value, { otherValue }) {
-    //  alert(otherValue)
+    // alert(otherValue)
       return value > otherValue;
     },
     

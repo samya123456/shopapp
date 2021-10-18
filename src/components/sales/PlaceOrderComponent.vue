@@ -36,9 +36,9 @@
                 name="Product Code"
                 rules="required"
             > 
-         <v-autocomplete v-model="selected[index]"
+         <v-autocomplete v-model="PurchaseProductList[index].ProductCompany.product"
             :items="products"
-            label="Product Code"
+             label="Product Code"
             :error-messages="errors"
             required
             item-text="productCode"
@@ -59,7 +59,7 @@
                 rules="required"
             > 
 
-        <v-autocomplete v-model="selectedProductWiseCompanyList[index]"
+        <v-autocomplete v-model="PurchaseProductList[index].ProductCompany"
             :items="ProductWiseCompanyList"
             label="Product Company Code"
             item-text="company.code"
@@ -80,11 +80,11 @@
           <validation-provider
                 v-slot="{ errors }"
                 name="Product Quantity"
-                rules="required|isSmaller:@Available Product Quantity"
+                rules="required|isSmaller:@Available Product Quantity_$index"
             > 
           <v-text-field 
             label="Quantity To Add" 
-            v-model="addedQuantity[index]"
+            v-model="PurchaseProductList[index].addedQuantity"
             :error-messages="errors"
             outlined
             required>
@@ -102,11 +102,11 @@
           <validation-provider
                 v-slot="{ errors }"
                 name="Sale Price"
-                rules="required|isGreater:@Sale min Price|isSmaller:@Sale max Price"
+                rules="required|isGreater:@Sale min Price_$index|isSmaller:@Sale max Price_$index"
             > 
           <v-text-field 
             label="Sale Price" 
-            v-model="saleingPrice[index]"
+            v-model="PurchaseProductList[index].saleingPrice"
             :error-messages="errors"
             outlined
             required>
@@ -115,7 +115,7 @@
          </validation-provider> 
                </v-col>      
 
-            <div id="prodictInfotooltipId"  style="display:none">
+            <div v-bind:id="index"  style="display:none">
            <v-col>
                <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
@@ -139,29 +139,29 @@
                          -->
                           <v-text-field 
                                 label="Available Product Quantity" 
-                                v-model="ProductCompany.productcompanyQuantity"
+                                v-model="PurchaseProductList[index].ProductCompany.productcompanyQuantity"
                                 >
                             </v-text-field>
                         
                             <v-text-field 
                                 label="Purchase Price" 
-                                v-model="ProductCompany.productPurchasePrice">
+                                v-model="PurchaseProductList[index].ProductCompany.productPurchasePrice">
                             </v-text-field>
                             <v-text-field 
                                 label="Sale min Price" 
-                                v-model="ProductCompany.productSaleMinPrice">
+                                v-model="PurchaseProductList[index].ProductCompany.productSaleMinPrice">
                             </v-text-field>
                             <v-text-field 
                                 label="Sale max Price" 
-                                v-model="ProductCompany.productSaleMaxPrice">
+                                v-model="PurchaseProductList[index].ProductCompany.productSaleMaxPrice">
                        </v-text-field>
                     </span>
                 </v-tooltip>
            </v-col>
             </div>
 
-           <v-col
-           cols="25"
+               <v-col
+                cols="25"
                 sm="6"
                 md="1">
 
@@ -169,12 +169,11 @@
                 <v-btn @click="deleteRow(index)"
                     color="primary"
                     fab
-                    dark
-                >
-     <v-icon dark>
-        mdi-minus
-      </v-icon>
-</v-btn>
+                    dark>
+                <v-icon dark>
+                    mdi-minus
+                </v-icon>
+                </v-btn>
             
            </v-col>
            
@@ -182,26 +181,26 @@
     
     <div style="display:none">
                <validation-provider
-               name="Available Product Quantity"> 
+               name="Available Product Quantity_$index"> 
                          <v-text-field 
-                                label="Available Product Quantity" 
-                                v-model="ProductCompany.productcompanyQuantity"
+                                label="Available Product Quantity_$index" 
+                                v-model="PurchaseProductList[index].ProductCompany.productcompanyQuantity"
                                 >
                             </v-text-field>
                           </validation-provider>
                         <validation-provider
-                            name="Sale min Price"  > 
+                            name="Sale min Price_$index"  > 
 
                            <v-text-field 
-                                label="Sale min Price" 
-                                v-model="ProductCompany.productSaleMinPrice">
+                                label="Sale min Price_$index" 
+                                v-model="PurchaseProductList[index].ProductCompany.productSaleMinPrice">
                             </v-text-field>
                         </validation-provider>
                         <validation-provider
-                            name="Sale max Price"  > 
+                            name="Sale max Price_$index"  > 
                              <v-text-field 
-                                label="Sale max Price" 
-                                v-model="ProductCompany.productSaleMaxPrice">
+                                label="Sale max Price_$index" 
+                                v-model="PurchaseProductList[index].ProductCompany.productSaleMaxPrice">
                              </v-text-field>
                         </validation-provider>
          </div>
@@ -219,11 +218,10 @@ export default {
 
     name:"PlaceOrderComponent",
      mounted(){
+          this.init()
           this.axios.get("http://localhost:9000/Inventory/getAllProducts")
         .then((response) =>{
             this.products = response.data;
-         
-         
             
         })
         .catch(error => {
@@ -236,39 +234,61 @@ export default {
      data(){
         return {
             products:[],
-            inputs: [],
-            PurchaseProductList:[],
+            PurchaseProductList:[
+            ],
+            PurchaseProduct:
+                {
+                ProductCompany : {
+                    productcompanyQuantity:'',
+                    productSaleMinPrice:'',
+                    productSaleMaxPrice:''
+                },
+                addedQuantity:''
+            },
             ProductWiseCompanyList:[],
-            selectedProductWiseCompanyList:[],
-            ProductCompany:[],
+            
             invalid:false,
-            PurchaseProduct:{},
-            saleingPrice:[],
-            addedQuantity:[],
-            selected:[]
+           
+            saleingPrice:'',
+            addedQuantity:'',
+            selected:''
         }
      },
      methods : {
+
+         init(){
+           this.PurchaseProductList.push(this.PurchaseProduct)
+         },
           addInput() {
             this.$refs.observer.validate()
-            this.PurchaseProductList.push(this.PurchaseProduct)
-            this.inputs.push(this.inputs.length+1)
+            
+            const PurchaseProduct = new Object({
+                
+                ProductCompany : {
+                    productcompanyQuantity:'',
+                    productSaleMinPrice:'',
+                    productSaleMaxPrice:''
+                },
+                addedQuantity:''
+            });
+            this.PurchaseProductList.push(PurchaseProduct)
+           
             //this.refreshData()
             },
            
             deleteRow(index) {
             this.PurchaseProductList.splice(index,1)
-            this.inputs.splice(index,1)
+            
             } ,
               onChangeProductCode(index){
-            this.product = this.selected[index]
-            this.PurchaseProduct.product = this.selected[index]
+            this.product = this.PurchaseProductList[index].ProductCompany.product
+           
 
              this.axios.post("http://localhost:9000/Inventory/allComapanyOfProduct",this.product)
             .then((response) =>{
             this.ProductWiseCompanyList = response.data;
             
-           // console.warn(this.ProductWiseCompanyList)
+          
            
             
         })
@@ -280,17 +300,16 @@ export default {
         
         }, 
         onChangeCompanyCode(index){
-           alert('Hi')
-            this.ProductCompany = this.selectedProductWiseCompanyList[index]
-            this.PurchaseProduct.ProductCompany = this.ProductCompany;
-            this.PurchaseProduct.saleingPrice =this.saleingPrice[index];
-            this.PurchaseProduct.addedQuantity =this.addedQuantity[index];
-            this.showTooltip();
+           
+            
+            this.showTooltip(index);
         },
         
-        showTooltip(){
+        showTooltip(index){
 
-            var x = document.getElementById("prodictInfotooltipId");
+            alert(index)
+
+            var x = document.getElementById(index);
                     if (x.style.display === "none") {
                         x.style.display = "block";
                     }
