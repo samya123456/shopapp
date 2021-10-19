@@ -1,11 +1,11 @@
 <template>
   <v-app>
     
-       <header>
+       
          
-    <h1 align="center"  class="p-3 text-center">Inventory App</h1>
+    <h1 align="center"  class="p-3 text-center">INVENTORY</h1>
      
-    </header>
+    
     <v-main class="grey lighten-3">
       <v-container>
          <v-row>
@@ -30,14 +30,22 @@
         <v-col>
            
               <div id="view" :class="[{'collapsed' : collapsed}]">
-           
+  
                  <v-card
                  outlined
                  shaped
                  elevation=4
-                 width="800">
+                 width="900">
+                  <v-card-text >
                 <router-view/>
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-text light>
+                  &copy; 2021 copyright protected
+             </v-card-text>
+
                  </v-card>
+                
               </div> 
          
         </v-col>
@@ -131,10 +139,7 @@ export default {
  
   
   methods : {
-    displayAddProdQuantity(){
-        this.$router.push('/') 
-      },
-       onItemClick() {
+     onItemClick() {
     
        this.collapsed =false
        this.hideToggle =true
@@ -150,15 +155,22 @@ export default {
 };
 </script>
 <style>
+
+#app{
+   font-family: "FontAwesome", Helvetica, Arial;
+   
+}
+
+
 #view {
-  padding-left: 100px;
+  padding-left: 50px;
 }
 #view.collapsed {
   padding-left: 50px;
 }
 
 .sidebar.v-sidebar-menu {
-  height: 300px;
+  height: 400 px;
   
 }
 
