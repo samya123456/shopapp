@@ -2,7 +2,7 @@
 <v-app>
   <div class="container"> 
        <v-card-title>
-       Add Your Product 
+       Add product 
        </v-card-title>
         
         <validation-observer

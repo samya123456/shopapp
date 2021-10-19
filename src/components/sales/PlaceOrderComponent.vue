@@ -2,7 +2,7 @@
 <v-app>
     <div class="container"> 
        <v-card-title>
-       CREATE ORDER
+       Create order
        </v-card-title>
 
         
@@ -220,11 +220,32 @@
             </p>
            </v-col>
        </v-row>
-    </div>             
+    </div>  
+
+
+    <div id="nextButtondivId">
+        <br/>
+        <br/>  
+   <v-row>
+           <v-col></v-col>
+           <v-col></v-col>
            
-
+           <v-col>
+                    <v-btn    @click="goToNextPage"
+                                color="primary"
+                                elevation="12"
+                                class="text-right"
+                                large
+                                small
+                                x-large
+                                x-small
+                                :disabled="invalid">
+                            Next
+                    </v-btn>         
+           </v-col>
+    </v-row>
                
-
+    </div>
        
 
 
@@ -318,58 +339,67 @@ export default {
                 this.totalAmount=0;
                     for (let i = 0; i < this.PurchaseProductList.length; i++){
                         if(this.PurchaseProductList[i].ProductCompany.product.productCode!=''
-                && this.PurchaseProductList[i].ProductCompany.company.code !=''
-                && this.PurchaseProductList[i].addedQuantity !=''
-                && this.PurchaseProductList[i].saleingPrice !=''
-                && !Number.isNaN(parseInt(this.PurchaseProductList[i].addedQuantity))
-                && !Number.isNaN( parseInt(this.PurchaseProductList[i].saleingPrice))){
-                    this.totalAmount =  parseInt(this.totalAmount) + parseInt ( this.PurchaseProductList[i].addedQuantity)* parseInt( this.PurchaseProductList[i].saleingPrice)
-                }
+                            && this.PurchaseProductList[i].ProductCompany.company.code !=''
+                            && this.PurchaseProductList[i].addedQuantity !=''
+                            && this.PurchaseProductList[i].saleingPrice !=''
+                            && !Number.isNaN(parseInt(this.PurchaseProductList[i].addedQuantity))
+                            && !Number.isNaN( parseInt(this.PurchaseProductList[i].saleingPrice)))
+                            {
+                                this.totalAmount =  parseInt(this.totalAmount) + parseInt ( this.PurchaseProductList[i].addedQuantity)* parseInt( this.PurchaseProductList[i].saleingPrice)
+                            }
                        
                     }
-                    if(!Number.isNaN( this.totalAmount) && this.totalAmount>0){
-                             var x = document.getElementById("totalAmountdivId");
+                    var x = document.getElementById("totalAmountdivId");
+                    if(this.PurchaseProductList.length>0 
+                        &&!Number.isNaN( this.totalAmount) 
+                        && this.totalAmount>0){
+                            
                                 if (x.style.display === "none") {
-                                    x.style.display = "block";
+                                   x.style.display = "block"
                                 } 
+                    }else{
+                                    x.style.display = "none";
+
                     }
             },
            
             deleteRow(index) {
-            this.PurchaseProductList.splice(index,1)
-            this.calcutateTotalAmount()
-            
+                    this.PurchaseProductList.splice(index,1)
+                    this.calcutateTotalAmount()
+                    
             } ,
-              onChangeProductCode(index){
-              this.product = this.PurchaseProductList[index].ProductCompany.product
-           
-
-             this.axios.post("http://localhost:9000/Inventory/allComapanyOfProduct",this.product)
-             .then((response) =>{
-             this.ProductWiseCompanyList[index] = response.data;
-            
-          
-           
-            
-        })
-        .catch(error => {
-            this.errorMessage = error.message;
-            console.log("There was an error!", error);
-            });
-
+            onChangeProductCode(index){
+                    this.product = this.PurchaseProductList[index].ProductCompany.product
+                    this.axios.post("http://localhost:9000/Inventory/allComapanyOfProduct",this.product)
+                        .then((response) =>{
+                        this.ProductWiseCompanyList[index] = response.data;
+                            })
+                        .catch(error => {
+                            this.errorMessage = error.message;
+                            console.log("There was an error!", error);
+                            });
+            }, 
+            onChangeCompanyCode(index){
+                    this.showTooltip(index);
+            },
         
-        }, 
-        onChangeCompanyCode(index){
-            this.showTooltip(index);
-        },
-        
-        showTooltip(index){
-            var x = document.getElementById(index);
-                    if (x.style.display === "none") {
-                        x.style.display = "block";
-                    } 
+            showTooltip(index){
+                    var x = document.getElementById(index);
+                        if (x.style.display === "none") {
+                            x.style.display = "block";
+                        } 
 
-        },
+            },goToNextPage(){
+                let data = {
+                    PurchaseProductList: this.PurchaseProductList,
+                    description: "pass data through params"
+                   };
+                this.$router.push(
+                    {path:'/orderDetails',
+                     name: "dataList",
+                     params: {data}
+                     }); 
+            }
        
         
          

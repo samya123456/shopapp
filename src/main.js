@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 import App from './App.vue'
 import AddProductQuantity from "./components/AddProductQuantity"
 import PlaceOrderComponent from "./components/sales/PlaceOrderComponent"
+import OrderDetailsComponent from "./components/sales/OrderDetailsComponent"
 import AddProduct from "./components/AddProduct"
 import Dropdown from 'vue-simple-search-dropdown';
 import ViewProductCompany from './components/ViewProductCompany'
@@ -44,7 +45,8 @@ const routes =[
   {path:'/addProduct' ,component:AddProduct},
   //{path:'/viewProductCompany' ,component:ViewProductCompany},
   {path:'/viewProductCompany' ,component:ViewProductCompany },
-  {path:'/createOrder' ,component:PlaceOrderComponent }
+  {path:'/createOrder' ,component:PlaceOrderComponent },
+  {path:'/orderDetails' ,name: 'dataList',component:OrderDetailsComponent }
   
 ];
 
