@@ -109,7 +109,7 @@ export default new Vuetify({
 const router = new VueRouter(
   {
   routes,
-  mode:  'abstract'
+  mode: 'history',
 }
 
 

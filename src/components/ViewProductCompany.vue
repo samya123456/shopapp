@@ -12,9 +12,9 @@
      <v-card-title>
     View Product Details
        </v-card-title>
-    <v-data-table :items="ProductWiseCompanyListList"
-                  :headers="productHeader"
-                  :expanded.sync="expanded"
+    <v-data-table  :items="ProductWiseCompanyListList"
+                   :headers="productHeader"
+                   :expanded.sync="expanded"
                     show-expand
                     single-expand
                     outlined
@@ -134,8 +134,7 @@ export default {
             ProductWiseCompanyListList:[],
             ProductWiseCompanyListForCompanyTable:[],
             shown:false,
-            searchQuery: '',
-             search: '',
+            search: '',
                 selected:{},
                 expanded: [],
                

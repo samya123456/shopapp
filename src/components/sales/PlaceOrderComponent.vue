@@ -239,6 +239,7 @@
                                 small
                                 x-large
                                 x-small
+                                
                                 :disabled="invalid">
                             Next
                     </v-btn>         
@@ -262,17 +263,17 @@ export default {
 
     name:"PlaceOrderComponent",
      mounted(){
-        
+          console.warn(this.$route)
           this.init()
           this.axios.get("http://localhost:9000/Inventory/getAllProducts")
-        .then((response) =>{
-            this.products = response.data;
-            
-        })
-        .catch(error => {
-            this.errorMessage = error.message;
-            console.log("There was an error!", error);
-            });
+            .then((response) =>{
+                this.products = response.data;
+                
+            })
+            .catch(error => {
+                this.errorMessage = error.message;
+                console.log("There was an error!", error);
+                });
 
             
 
@@ -294,7 +295,8 @@ export default {
                     productSaleMaxPrice:''
                 },
                 addedQuantity:'',
-                saleingPrice:''
+                saleingPrice:'',
+                addedQuantitytotalAmount:0
             },
             ProductWiseCompanyList:[],
             //invalid:true,
@@ -329,7 +331,9 @@ export default {
                     productSaleMinPrice:'',
                     productSaleMaxPrice:''
                 },
-                addedQuantity:''
+                addedQuantity:'',
+                saleingPrice:'',
+                addedQuantitytotalAmount:0
             });
             this.PurchaseProductList.push(PurchaseProduct)
            
@@ -345,26 +349,37 @@ export default {
                             && !Number.isNaN(parseInt(this.PurchaseProductList[i].addedQuantity))
                             && !Number.isNaN( parseInt(this.PurchaseProductList[i].saleingPrice)))
                             {
-                                this.totalAmount =  parseInt(this.totalAmount) + parseInt ( this.PurchaseProductList[i].addedQuantity)* parseInt( this.PurchaseProductList[i].saleingPrice)
+                                this.PurchaseProductList[i].addedQuantitytotalAmount = parseInt ( this.PurchaseProductList[i].addedQuantity)* parseInt( this.PurchaseProductList[i].saleingPrice)
+                                this.totalAmount =  parseInt(this.totalAmount) + parseInt ( this.PurchaseProductList[i].addedQuantitytotalAmount)
                             }
                        
                     }
-                    var x = document.getElementById("totalAmountdivId");
-                    if(this.PurchaseProductList.length>0 
-                        &&!Number.isNaN( this.totalAmount) 
-                        && this.totalAmount>0){
-                            
-                                if (x.style.display === "none") {
-                                   x.style.display = "block"
-                                } 
-                    }else{
-                                    x.style.display = "none";
+                    var p = document.getElementById("totalAmountdivId");
+                    var q = document.getElementById("nextButtondivId");
+                        if(this.PurchaseProductList.length>0 
+                            &&!Number.isNaN( this.totalAmount) 
+                            && this.totalAmount>0)
+                                {   
+                                    
+                                    if (p.style.display === "none") {
+                                        p.style.display = "block"
+                                    } 
+                                    if (q.style.display === "none") {
+                                        q.style.display = "block"
+                                    } 
+                                    
+                                }else{
+                                    
+                                         p.style.display = "none"
+                                         q.style.display = "none"
+                                    
 
-                    }
+                                }
             },
            
             deleteRow(index) {
                     this.PurchaseProductList.splice(index,1)
+                    
                     this.calcutateTotalAmount()
                     
             } ,
@@ -392,6 +407,7 @@ export default {
             },goToNextPage(){
                 let data = {
                     PurchaseProductList: this.PurchaseProductList,
+                    totalAmount:this.totalAmount,
                     description: "pass data through params"
                    };
                 this.$router.push(
