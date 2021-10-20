@@ -42,23 +42,34 @@
                       <div id="nextButtondivId">
         <br/>
         <br/>  
-   <v-row>
+  <v-row>
            <v-col></v-col>
            <v-col></v-col>
            <v-col></v-col>
            <v-col></v-col>
            <v-col>
-                <v-btn    @click="goToPrevPage"
-                                color="primary"
-                                elevation="5"
-                                class="text-right"
-                                large
-                                small
-                                x-large
-                                x-small
-                                >
-                                         Edit
-                                </v-btn>   
+
+             
+
+                                 <v-btn 
+                                    :to="{
+                                        name: 'createOrder',
+                                        params: { data :{
+                                          PurchaseProductList:  this.PurchaseProductList,
+                                          fromDetailsPage:true }
+                                        },
+                                       
+                                    }"
+                                        color="primary"
+                                        elevation="12"
+                                        class="text-right"
+                                        large
+                                        small
+                                        x-large
+                                        x-small
+                                    >Edit</v-btn>
+
+                                
 </v-col> <v-col>
            
           
@@ -77,6 +88,9 @@
     </v-row>
                
     </div>
+
+
+                               
             
 
 
@@ -88,7 +102,7 @@
 export default {
     name:"OrderDetailsComponent",
     mounted(){
-         this.PurchaseProductList = this.$route.params.data.PurchaseProductList;
+           this.PurchaseProductList = this.$route.params.data.PurchaseProductList;
            this.totalAmount = this.$route.params.data.totalAmount
 
      },
@@ -107,21 +121,33 @@ export default {
         return {
             PurchaseProductList:[],
             totalAmount:'',
-             search: '',
+            search: '',
+           
         }
      },
      methods : {
          goToPrevPage(){
-               let data = {
+             let data = {
                     PurchaseProductList: this.PurchaseProductList,
                     totalAmount:this.totalAmount,
                     fromDetailsPage:true,
                    };
-            this.$router.push(
-                    {path:'/createOrder',
-                     params: {data}
-                     }).bind(data); 
+            self.$router.push(
+                    {
+                        path:'/createOrder',
+                        params: {data,
+                        otherProp: {
+                                "a": "b"
+                              }},
+                        name: 'createOrder'
+                     });
+
+                    // this.$router.go(-1)
+                     
                     
+         },
+         goToNextPage(){
+
          }
      }
 

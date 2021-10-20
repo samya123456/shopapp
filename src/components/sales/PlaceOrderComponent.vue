@@ -44,8 +44,11 @@
                             required
                             item-text="productCode"
                             item-value="productCode"
+                            v-bind="PurchaseProductList[index].ProductCompany.product"
                             @change="onChangeProductCode(index);displayTotalAmount(index)"
                             outlined
+                            cache-items
+                            @input="produceProductCode"
                             return-object>
                         </v-autocomplete>
 
@@ -67,10 +70,13 @@
                         label="Product Company Code"
                         item-text="company.code"
                         item-value="company.code"
+                         v-bind="PurchaseProductList[index].ProductCompany.company"
                         @change="onChangeCompanyCode(index) ;displayTotalAmount(index)"
                         :error-messages="errors"
                         outlined
                         required
+                        cache-items
+                        @input="produceCompanyCode"
                         return-object>
                     </v-autocomplete>
 
@@ -223,7 +229,7 @@
     </div>  
 
 
-    <div id="nextButtondivId">
+    <div style="display:none" id="nextButtondivId">
         <br/>
         <br/>  
    <v-row>
@@ -239,7 +245,6 @@
                                 small
                                 x-large
                                 x-small
-                                
                                 :disabled="invalid">
                             Next
                     </v-btn>         
@@ -247,8 +252,7 @@
     </v-row>
                
     </div>
-       
-
+                                    
 
 
     </v-container>
@@ -262,28 +266,11 @@
 export default {
 
     name:"PlaceOrderComponent",
-     mounted(){
-          console.warn(this.$route)
-          this.init()
-          this.axios.get("http://localhost:9000/Inventory/getAllProducts")
-            .then((response) =>{
-                this.products = response.data;
-                
-            })
-            .catch(error => {
-                this.errorMessage = error.message;
-                console.log("There was an error!", error);
-                });
-
-            
-
-
-     },
-     
    
-      
-    
-     data(){
+   
+   
+    data(){
+         
         return {
             products:[],
             PurchaseProductList:[],
@@ -299,13 +286,84 @@ export default {
                 addedQuantitytotalAmount:0
             },
             ProductWiseCompanyList:[],
-            //invalid:true,
+            
             
             addedQuantity:'',
             totalAmount:0
         }
      },
+   
+     mounted(){
+
+                 // this.init()
+                  this.axios.get("http://localhost:9000/Inventory/getAllProducts")
+                 .then((response) =>{
+                  this.products = response.data;
+                
+            })
+            .catch(error => {
+                this.errorMessage = error.message;
+                console.log("There was an error!", error);
+                });
+
+                
+                  
+               if (typeof this.$router !== 'undefined' 
+                    &&  typeof this.$router.currentRoute !== 'undefined'
+                    &&  typeof this.$router.currentRoute.params.data !== 'undefined' 
+                    &&  this.$router.currentRoute.params.data.PurchaseProductList.length>0
+                    &&  this.$router.currentRoute.params.data.fromDetailsPage==true)
+                {
+                
+                 
+
+                 for(let i=0;i<this.$router.currentRoute.params.data.PurchaseProductList.length;i++){
+                      let PurchaseProduct = new Object({
+                
+                            ProductCompany : {
+                                productcompanyQuantity:'',
+                                productSaleMinPrice:'',
+                                productSaleMaxPrice:''
+                            },
+                            addedQuantity:'',
+                            saleingPrice:'',
+                            addedQuantitytotalAmount:0
+                        });
+                        PurchaseProduct = this.$router.currentRoute.params.data.PurchaseProductList[i];
+                        console.warn(PurchaseProduct)
+                        this.PurchaseProductList.push(PurchaseProduct)
+                       // this.onChangeProductCode(i)
+                    
+                 }
+                } 
+
+             
+              
+              
+        
+                  
+                    
+          
+     },
+         
+        
+            
+
+
+     
+     
+   
+      
+    
+     
      methods : {
+         produceCompanyCode(i){
+             this.PurchaseProductList[i].ProductCompany.company.code =this.$router.currentRoute.params.data.PurchaseProductList[i].ProductCompany.company.code
+                
+         },
+         produceProductCode(i){
+            this.PurchaseProductList[i].ProductCompany.product.productCode = this.$router.currentRoute.params.data.PurchaseProductList[i].ProductCompany.product.productCode
+         },
             displayTotalAmount(index) {
               if(this.PurchaseProductList[index].ProductCompany.product.productCode!=''
                 && this.PurchaseProductList[index].ProductCompany.company.code !=''
@@ -387,7 +445,7 @@ export default {
                     this.product = this.PurchaseProductList[index].ProductCompany.product
                     this.axios.post("http://localhost:9000/Inventory/allComapanyOfProduct",this.product)
                         .then((response) =>{
-                        this.ProductWiseCompanyList[index] = response.data;
+                           this.ProductWiseCompanyList[index] = response.data;
                             })
                         .catch(error => {
                             this.errorMessage = error.message;
@@ -412,7 +470,7 @@ export default {
                    };
                 this.$router.push(
                     {path:'/orderDetails',
-                     name: "dataList",
+                     name: "orderDetails",
                      params: {data}
                      }); 
             }

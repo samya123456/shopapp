@@ -45,8 +45,20 @@ const routes =[
   {path:'/addProduct' ,component:AddProduct},
   //{path:'/viewProductCompany' ,component:ViewProductCompany},
   {path:'/viewProductCompany' ,component:ViewProductCompany },
-  {path:'/createOrder' ,component:PlaceOrderComponent },
-  {path:'/orderDetails' ,name: 'dataList',component:OrderDetailsComponent }
+  {path:'/createOrder',name: 'createOrder' ,component:PlaceOrderComponent,
+  props:  true,
+  beforeRouteUpdate (to, from) {
+    console.warn(to)
+    console.warn(from)
+}},
+  {path:'/orderDetails' ,name: 'orderDetails',component:OrderDetailsComponent ,
+  beforeRouteUpdate (to, from) {
+      console.warn(to)
+      console.warn(from)
+}
+},
+  
+ 
   
 ];
 
