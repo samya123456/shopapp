@@ -1,10 +1,11 @@
 <template>
 <v-app>
   <div class="container"> 
+
        <v-card-title>
        Add product 
        </v-card-title>
-        
+   <v-container>     
         <validation-observer
             ref="observer"
             v-slot="{ invalid }"
@@ -173,6 +174,10 @@
       </v-form>    
         </validation-observer>
 
+  
+  
+  </v-container>
+  
   </div>  
   </v-app> 
 </template>

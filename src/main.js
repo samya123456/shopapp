@@ -121,10 +121,10 @@ export default new Vuetify({
 const router = new VueRouter(
   {
   routes,
-  mode: 'history',
+  mode:'history'
+    
+ 
 }
-
-
 );
 new Vue({
   el: "#app",

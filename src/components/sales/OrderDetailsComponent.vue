@@ -39,7 +39,7 @@
                                 </v-row>
                      </div> 
 
-                      <div id="nextButtondivId">
+<div id="nextButtondivId">
         <br/>
         <br/>  
   <v-row>
@@ -50,7 +50,7 @@
            <v-col>
 
              
-
+                        <div style="display:none">
                                  <v-btn 
                                     :to="{
                                         name: 'createOrder',
@@ -67,13 +67,15 @@
                                         small
                                         x-large
                                         x-small
+                                       
                                     >Edit</v-btn>
+                        </div>
 
                                 
 </v-col> <v-col>
            
           
-                    <v-btn    @click="goToNextPage"
+                    <v-btn    @click="doConfirm"
                                 color="primary"
                                 elevation="5"
                                 class="text-right"
@@ -126,27 +128,9 @@ export default {
         }
      },
      methods : {
-         goToPrevPage(){
-             let data = {
-                    PurchaseProductList: this.PurchaseProductList,
-                    totalAmount:this.totalAmount,
-                    fromDetailsPage:true,
-                   };
-            self.$router.push(
-                    {
-                        path:'/createOrder',
-                        params: {data,
-                        otherProp: {
-                                "a": "b"
-                              }},
-                        name: 'createOrder'
-                     });
-
-                    // this.$router.go(-1)
-                     
-                    
-         },
-         goToNextPage(){
+        
+         doConfirm(){
+             alert('Hi')
 
          }
      }

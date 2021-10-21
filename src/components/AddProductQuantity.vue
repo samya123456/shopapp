@@ -173,7 +173,7 @@ export default {
 
             
             this.axios.get("http://localhost:9000/Inventory/allBranches")
-        .then((response) =>{
+          . then((response) =>{
             this.branches = response.data;
             
         })
@@ -298,5 +298,15 @@ export default {
 
 }
 </script>
+<style>
+.group {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
+}
+
+
+
+</style>
 
 

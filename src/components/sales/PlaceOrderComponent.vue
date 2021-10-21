@@ -48,7 +48,7 @@
                             @change="onChangeProductCode(index);displayTotalAmount(index)"
                             outlined
                             cache-items
-                            @input="produceProductCode"
+                            @input="produceProductCode(index)"
                             return-object>
                         </v-autocomplete>
 
@@ -57,7 +57,7 @@
              <v-col
                 cols="50"
                 sm="6"
-                md="3">
+                md="2">
 
 
                 <validation-provider
@@ -70,13 +70,13 @@
                         label="Product Company Code"
                         item-text="company.code"
                         item-value="company.code"
-                         v-bind="PurchaseProductList[index].ProductCompany.company"
+                        :value="PurchaseProductList[index].ProductCompany.company"
                         @change="onChangeCompanyCode(index) ;displayTotalAmount(index)"
                         :error-messages="errors"
                         outlined
                         required
                         cache-items
-                        @input="produceCompanyCode"
+                        @input="produceCompanyCode(index)"
                         return-object>
                     </v-autocomplete>
 
@@ -126,8 +126,22 @@
                     </v-text-field>
           
                 </validation-provider> 
-            </v-col>      
-
+            </v-col>     
+            <v-col
+                cols="25"
+                sm="6"
+                md="2">
+         <v-autocomplete v-model="selectedBranch"
+            :items="branches"
+            label="Branch"
+            :error-messages="errors"
+            required
+            item-text="branchCode"
+            item-value="branchCode"
+            outlined
+            return-object>
+        </v-autocomplete> 
+        </v-col>   
         <div v-bind:id="index"  style="display:none">
            <v-col>
                <v-tooltip bottom>
@@ -237,17 +251,23 @@
            <v-col></v-col>
            
            <v-col>
-                    <v-btn    @click="goToNextPage"
-                                color="primary"
-                                elevation="12"
-                                class="text-right"
-                                large
-                                small
-                                x-large
-                                x-small
-                                :disabled="invalid">
-                            Next
-                    </v-btn>         
+                    <v-btn 
+                                    :to="{
+                                        name: 'orderDetails',
+                                        params: { data :{
+                                          PurchaseProductList:  PurchaseProductList,
+                                          totalAmount:totalAmount }
+                                        },
+                                       
+                                    }"
+                                        color="primary"
+                                        elevation="12"
+                                        class="text-right"
+                                        large
+                                        small
+                                        x-large
+                                        x-small
+                                    >Next</v-btn>     
            </v-col>
     </v-row>
                
@@ -266,9 +286,11 @@
 export default {
 
     name:"PlaceOrderComponent",
+   watcher:{
+       sync:true
+   },
    
-   
-   
+  
     data(){
          
         return {
@@ -286,27 +308,41 @@ export default {
                 addedQuantitytotalAmount:0
             },
             ProductWiseCompanyList:[],
-            
+            branches:[],
             
             addedQuantity:'',
-            totalAmount:0
+            totalAmount:0,
+            enableDetailsPageEditButton:false
         }
      },
    
      mounted(){
-
+                  
                  // this.init()
                   this.axios.get("http://localhost:9000/Inventory/getAllProducts")
                  .then((response) =>{
                   this.products = response.data;
                 
-            })
-            .catch(error => {
-                this.errorMessage = error.message;
-                console.log("There was an error!", error);
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.log("There was an error!", error);
                 });
 
-                
+
+                 this.axios.get("http://localhost:9000/Inventory/allBranches")
+                . then((response) =>{
+                    this.branches = response.data;
+            
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.log("There was an error!", error);
+                    });
+
+          if(this.enableDetailsPageEditButton){
+
+            
                   
                if (typeof this.$router !== 'undefined' 
                     &&  typeof this.$router.currentRoute !== 'undefined'
@@ -330,12 +366,16 @@ export default {
                             addedQuantitytotalAmount:0
                         });
                         PurchaseProduct = this.$router.currentRoute.params.data.PurchaseProductList[i];
-                        console.warn(PurchaseProduct)
+                        
                         this.PurchaseProductList.push(PurchaseProduct)
-                       // this.onChangeProductCode(i)
+                        this.onChangeProductCode(i)
+                       
                     
                  }
+
+                 
                 } 
+            }   
 
              
               
@@ -363,6 +403,7 @@ export default {
          },
          produceProductCode(i){
             this.PurchaseProductList[i].ProductCompany.product.productCode = this.$router.currentRoute.params.data.PurchaseProductList[i].ProductCompany.product.productCode
+            
          },
             displayTotalAmount(index) {
               if(this.PurchaseProductList[index].ProductCompany.product.productCode!=''
@@ -445,12 +486,13 @@ export default {
                     this.product = this.PurchaseProductList[index].ProductCompany.product
                     this.axios.post("http://localhost:9000/Inventory/allComapanyOfProduct",this.product)
                         .then((response) =>{
-                           this.ProductWiseCompanyList[index] = response.data;
+                           this.ProductWiseCompanyList[index]=response.data;
                             })
                         .catch(error => {
                             this.errorMessage = error.message;
                             console.log("There was an error!", error);
                             });
+                            console.warn( this.ProductWiseCompanyList)
             }, 
             onChangeCompanyCode(index){
                     this.showTooltip(index);
