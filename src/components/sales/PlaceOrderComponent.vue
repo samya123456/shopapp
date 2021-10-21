@@ -31,7 +31,7 @@
               <v-col
                 cols="50"
                 sm="6"
-                md="3">
+                md="2">
                     <validation-provider
                       v-slot="{ errors }"
                       name="Product Code"
@@ -131,16 +131,24 @@
                 cols="25"
                 sm="6"
                 md="2">
-         <v-autocomplete v-model="selectedBranch"
+
+                 <validation-provider
+                  v-slot="{ errors }"
+                  name="Branch"
+                  rules="required"> 
+         <v-autocomplete v-model="PurchaseProductList[index].selectedBranch"
             :items="branches"
-            label="Branch"
+             label="Branch"
             :error-messages="errors"
             required
             item-text="branchCode"
             item-value="branchCode"
             outlined
+            @click.stop
+            auto-select-first
             return-object>
         </v-autocomplete> 
+        </validation-provider>
         </v-col>   
         <div v-bind:id="index"  style="display:none">
            <v-col>
@@ -305,10 +313,12 @@ export default {
                 },
                 addedQuantity:'',
                 saleingPrice:'',
-                addedQuantitytotalAmount:0
+                addedQuantitytotalAmount:0,
+                selectedBranch:{},
             },
             ProductWiseCompanyList:[],
             branches:[],
+           
             
             addedQuantity:'',
             totalAmount:0,
@@ -333,6 +343,7 @@ export default {
                  this.axios.get("http://localhost:9000/Inventory/allBranches")
                 . then((response) =>{
                     this.branches = response.data;
+                   
             
                 })
                 .catch(error => {
@@ -410,12 +421,18 @@ export default {
                 && this.PurchaseProductList[index].ProductCompany.company.code !=''
                 && this.PurchaseProductList[index].addedQuantity !=''
                 && this.PurchaseProductList[index].saleingPrice !=''){
-                   // alert('hi')
                    this.calcutateTotalAmount()
+                   this.calculateQuantity(index)
                 }
                    
         
       
+    },
+    calculateQuantity(index){
+        this.PurchaseProductList[index].ProductCompany.productcompanyQuantity = parseInt(this.PurchaseProductList[index].ProductCompany.productcompanyQuantity)
+         - parseInt( this.PurchaseProductList[index].addedQuantity);
+         this.PurchaseProductList[index].ProductCompany.addedQuantity =  parseInt(this.PurchaseProductList[index].addedQuantity)
+
     },
            
          init(){
@@ -492,8 +509,10 @@ export default {
                             this.errorMessage = error.message;
                             console.log("There was an error!", error);
                             });
-                            console.warn( this.ProductWiseCompanyList)
+                             console.warn( this.ProductWiseCompanyList)
+                             this.PurchaseProductList[index].selectedBranch =this.branches[0]
             }, 
+           
             onChangeCompanyCode(index){
                     this.showTooltip(index);
             },
@@ -504,17 +523,6 @@ export default {
                             x.style.display = "block";
                         } 
 
-            },goToNextPage(){
-                let data = {
-                    PurchaseProductList: this.PurchaseProductList,
-                    totalAmount:this.totalAmount,
-                    description: "pass data through params"
-                   };
-                this.$router.push(
-                    {path:'/orderDetails',
-                     name: "orderDetails",
-                     params: {data}
-                     }); 
             }
        
         

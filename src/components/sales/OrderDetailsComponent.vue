@@ -45,8 +45,8 @@
   <v-row>
            <v-col></v-col>
            <v-col></v-col>
-           <v-col></v-col>
-           <v-col></v-col>
+           
+           
            <v-col>
 
              
@@ -105,7 +105,8 @@ export default {
     name:"OrderDetailsComponent",
     mounted(){
            this.PurchaseProductList = this.$route.params.data.PurchaseProductList;
-           this.totalAmount = this.$route.params.data.totalAmount
+           this.totalAmount = this.$route.params.data.totalAmount 
+           this.selectedBranch=this.$route.params.data.selectedBranch
 
      },
       computed: {
@@ -121,16 +122,44 @@ export default {
       },
      data(){
         return {
-            PurchaseProductList:[],
+            PurchaseProductList:[this.PurchaseProduct],
+            PurchaseProduct:
+                {
+                ProductCompany : {
+                    productcompanyQuantity:'',
+                    productSaleMinPrice:'',
+                    productSaleMaxPrice:''
+                },
+                addedQuantity:'',
+                saleingPrice:'',
+                addedQuantitytotalAmount:0
+            },
+            SubmitOrderReq:{
+            },
             totalAmount:'',
             search: '',
+           
            
         }
      },
      methods : {
         
          doConfirm(){
-             alert('Hi')
+            
+             this.SubmitOrderReq.purchaseProductList = this.PurchaseProductList;
+             this.SubmitOrderReq.totalAmount=this.totalAmount;
+             
+
+              this.axios.post("http://localhost:9001/sales/submitOrder", this.SubmitOrderReq)
+                .then((response) =>{
+                    console.warn(response.data)
+            
+            
+                    })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.log("There was an error!", error);
+                    });
 
          }
      }

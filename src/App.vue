@@ -35,7 +35,7 @@
                  outlined
                  shaped
                  elevation=4
-                 width="1000">
+                 width="1500px">
                   <v-card-text >
                 <router-view/>
               </v-card-text>
@@ -163,7 +163,7 @@ export default {
 
 
 #view {
-  padding-left: 40px;
+  padding-left: 225px;
 }
 #view.collapsed {
   padding-left: 225px;
