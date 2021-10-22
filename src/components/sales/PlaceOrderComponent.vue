@@ -29,7 +29,7 @@
         <br/>
          <v-row>
               <v-col
-                cols="50"
+                cols="6"
                 sm="6"
                 md="2">
                     <validation-provider
@@ -45,7 +45,7 @@
                             item-text="productCode"
                             item-value="productCode"
                             v-bind="PurchaseProductList[index].ProductCompany.product"
-                            @change="onChangeProductCode(index);displayTotalAmount(index)"
+                            @change="onChangeProductCode(index);setValueBeforeSubmit(index)"
                             outlined
                             cache-items
                             @input="produceProductCode(index)"
@@ -55,7 +55,7 @@
                     </validation-provider>  
             </v-col>
              <v-col
-                cols="50"
+                cols="6"
                 sm="6"
                 md="2">
 
@@ -71,7 +71,7 @@
                         item-text="company.code"
                         item-value="company.code"
                         :value="PurchaseProductList[index].ProductCompany.company"
-                        @change="onChangeCompanyCode(index) ;displayTotalAmount(index)"
+                        @change="onChangeCompanyCode(index) ;setValueBeforeSubmit(index)"
                         :error-messages="errors"
                         outlined
                         required
@@ -85,7 +85,7 @@
 
 
             <v-col
-                cols="50"
+                cols="6"
                 sm="6"
                 md="2">
                 <validation-provider
@@ -98,7 +98,7 @@
                         v-model="PurchaseProductList[index].addedQuantity"
                         :error-messages="errors"
                         outlined
-                        @change="displayTotalAmount(index)"
+                        @change="setValueBeforeSubmit(index)"
                         required>
                     </v-text-field>
           
@@ -108,7 +108,7 @@
             </v-col>
 
             <v-col
-                cols="25"
+                cols="6"
                 sm="6"
                 md="2">
                 <validation-provider
@@ -122,13 +122,13 @@
                         :error-messages="errors"
                         outlined
                         required
-                         @change="displayTotalAmount(index)">
+                         @change="setValueBeforeSubmit(index)">
                     </v-text-field>
           
                 </validation-provider> 
             </v-col>     
             <v-col
-                cols="25"
+                cols="6"
                 sm="6"
                 md="2">
 
@@ -416,13 +416,14 @@ export default {
             this.PurchaseProductList[i].ProductCompany.product.productCode = this.$router.currentRoute.params.data.PurchaseProductList[i].ProductCompany.product.productCode
             
          },
-            displayTotalAmount(index) {
+            setValueBeforeSubmit(index) {
               if(this.PurchaseProductList[index].ProductCompany.product.productCode!=''
                 && this.PurchaseProductList[index].ProductCompany.company.code !=''
                 && this.PurchaseProductList[index].addedQuantity !=''
                 && this.PurchaseProductList[index].saleingPrice !=''){
                    this.calcutateTotalAmount()
                    this.calculateQuantity(index)
+                   this.setModeOfOpertionStatus(index)
                 }
                    
         
@@ -432,6 +433,10 @@ export default {
         this.PurchaseProductList[index].ProductCompany.productcompanyQuantity = parseInt(this.PurchaseProductList[index].ProductCompany.productcompanyQuantity)
          - parseInt( this.PurchaseProductList[index].addedQuantity);
          this.PurchaseProductList[index].ProductCompany.addedQuantity =  parseInt(this.PurchaseProductList[index].addedQuantity)
+
+    },
+    setModeOfOpertionStatus(index){
+        this.PurchaseProductList[index].ProductCompany.modeOfOpertion = "PRODUCT_PURCHASED_MINUS"
 
     },
            

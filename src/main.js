@@ -8,6 +8,7 @@ import AddProductQuantity from "./components/AddProductQuantity"
 import PlaceOrderComponent from "./components/sales/PlaceOrderComponent"
 import OrderDetailsComponent from "./components/sales/OrderDetailsComponent"
 import AddProduct from "./components/AddProduct"
+import Home from "./components/Home";
 import Dropdown from 'vue-simple-search-dropdown';
 import ViewProductCompany from './components/ViewProductCompany'
 import VueTableDynamic from 'vue-table-dynamic'
@@ -17,8 +18,9 @@ import Vuetable from "vuetable-2";
 import vuetify from './plugins/vuetify'
 import Vuetify from 'vuetify/lib'
 import Header from 'v-header'
-import colors from 'vuetify/lib/util/colors'
+
 import './assets/asset.css';
+import colors from 'vuetify/lib/util/colors'
 import "vue-sidebar-menu/dist/vue-sidebar-menu.css";
 import '@fortawesome/fontawesome-free/css/all.css'
 import VueSidebarMenu from "vue-sidebar-menu";
@@ -41,6 +43,7 @@ Vue.component('ValidationObserver', ValidationObserver);
 Vue.component('VueNumericInput', VueNumericInput);
 
 const routes =[
+  {path:"/home", component:Home},
   {path:'/addProductQuantity' ,component:AddProductQuantity},
   {path:'/addProduct' ,component:AddProduct},
   //{path:'/viewProductCompany' ,component:ViewProductCompany},
@@ -111,7 +114,8 @@ export default new Vuetify({
       light: {
         primary: colors.red.darken1, // #E53935
         secondary: colors.red.lighten4, // #FFCDD2
-        accent: colors.indigo.base, // #3F51B5
+        accent: colors.indigo.base, 
+        // #3F51B5
       },
     },
   },
@@ -121,7 +125,7 @@ export default new Vuetify({
 const router = new VueRouter(
   {
   routes,
-  mode:'history'
+  mode:'abstract'
     
  
 }

@@ -220,6 +220,7 @@ export default {
             this.ProductCompany.productcompanyQuantity = parseInt(this.ProductCompany.productcompanyQuantity)+ parseInt(this.addedQuantity)
             this.ProductCompany.addedQuantity =  parseInt(this.addedQuantity)
             alert(this.ProductCompany.productcompanyQuantity)
+            this.ProductCompany.modeOfOpertion="PRODUCT_QUANTITY_ADDED"
             this.ProductCompanyBranch.productCompany =  this.ProductCompany;
             this.ProductCompanyBranch.branch =  this.selectedBranch;
           /*  this.axios.post("http://localhost:9000/Inventory/updateQuantity",this.ProductCompanyBranch)

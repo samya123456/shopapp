@@ -242,6 +242,7 @@ export default {
                e.preventDefault();
                this.productCompany.company = this.company
                this.productCompany.product =this.product
+               this.productCompany.modeOfOpertion ='NEW_PRODUCT_ADDED'
 
                console.warn(this.productCompany)
            this.axios.post("http://localhost:9000/Inventory/addProduct",this.productCompany)

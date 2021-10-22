@@ -1,34 +1,44 @@
 <template>
-  <v-app>
-    
-       
-         
-    <h1 align="center"  class="p-3 text-center">INVENTORY</h1>
-     
-    
-    <v-main class="grey lighten-3">
-      <v-container>
-         <v-row>
-           <v-col cols="2">
-             <v-sheet rounded="lg">
-      
+  <v-app >
     
      
-            
-<div id = "manu">
-         <sidebar-menu
-              class="sidebar"
-              :menu="menu"
-              :collapsed="collapsed"
-              @item-click="onItemClick"
-              @toggle-collapse="onToggleCollapse"
-              
-          />    
-  </div>    
-  </v-sheet>
-          </v-col>
-        <v-col>
-           
+    
+    <v-main  class="bg" >
+        <h1 align="center"  class="p-3 text-center" >
+          
+            <!--  <span style="color:#1a75ff">I</span>
+                <span style="color:#33cc33">n</span>
+                <span style="color:#ffff4d">v</span>
+                <span style="color:#FF0066">e</span>
+                <span style="color:#FF0066">n</span>
+                 <span style="color:#FF0066">t</span>
+                  <span style="color:#FF0066">o</span>
+                   <span style="color:#FF0066">r</span>
+                    <span style="color:#FF0066">Y</span> -->
+                    INVENTORY
+        </h1>
+     
+             
+<v-container >
+<v-row>
+
+              <v-col cols="2">           
+              <v-sheet>            
+              <div id = "manu">
+                      <sidebar-menu
+                            class="sidebar"
+                            :menu="menu"
+                            :collapsed="collapsed"
+                            @item-click="onItemClick"
+                            @toggle-collapse="onToggleCollapse"
+                            
+                        />    
+                </div>    
+                </v-sheet>
+                </v-col>
+
+        
+              <v-col>
               <div id="view" :class="[{'collapsed' : collapsed}]">
   
                  <v-card
@@ -60,6 +70,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+
 Vue.use(VueRouter)
 export default {
  name: 'App',
@@ -76,7 +87,7 @@ export default {
           hiddenOnCollapse: true
         },
         {
-          href: "/",
+          href: "/home",
           title: "Home",
           icon: 'fa fa-user'
           
@@ -143,18 +154,20 @@ export default {
     
        this.collapsed =false
        this.hideToggle =true
-      document.getElementById("manu").style.width = "0px";
+       document.getElementById("manu").style.width = "0px";
     },
     
     onToggleCollapse(){
-      document.getElementById("manu").style.width = "100px";
-       document.getElementById("main").style.marginLeft = "100px";
+       document.getElementById("manu").style.width = "10px";
+       document.getElementById("main").style.marginLeft = "50px";
     }
       
     }
 };
 </script>
-<style>
+<style >
+
+
 
 #app{
    font-family: "FontAwesome", Helvetica, Arial;
@@ -170,7 +183,7 @@ export default {
 }
 
 .sidebar.v-sidebar-menu {
-  height: 200 px;
+  height: 50 px;
   
 }
 
@@ -184,5 +197,7 @@ export default {
   content: "\f07e";
   font-family: "FontAwesome";
 }
+
+
 </style>
 
